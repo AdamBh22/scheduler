@@ -10,7 +10,7 @@
   justify-content: center;
   height:90vh;
   // max-width: 4000px;
-  background: linear-gradient(to top, rgba(147, 246, 242, 0.95), #ffffff);
+  background: linear-gradient(to top, rgba(148, 255, 251, 0.85), #ffffff);
   animation: gradientAnimation 15s ease infinite;
   position: relative;
 }
@@ -72,7 +72,7 @@ select {
 }
 
 .login-btn, .signup-btn {
-  background-color: #722cff;
+  background-color: #23a5f6;
   color: white;
   border: none;
   padding: 10px;
@@ -140,8 +140,10 @@ select {
 }
 
 a {
-  color: #722cff;
+  color: #23a5f6;
   text-decoration: none;
 }
-
+h2{
+  color: #036ed6;
+}
 

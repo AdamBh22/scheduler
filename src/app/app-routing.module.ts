@@ -14,11 +14,6 @@ const routes: Routes = [
     component: SignupComponent
   },
   {
-    path:'',
-    redirectTo:'/login',
-    pathMatch: 'full',
-  },
-  {
     path:'lnavbar',
     component:LnavbarComponent
   }

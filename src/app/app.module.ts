@@ -10,13 +10,21 @@ import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {NgOptimizedImage} from "@angular/common";
 import {RouterModule} from "@angular/router";
+import { SidebarComponent } from './pages/sidebar/sidebar.component';
+import { NavbarComponent } from './pages/navbar/navbar.component';
+import { HomeComponent } from './pages/home/home.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     LnavbarComponent,
-    SignupComponent
+    SignupComponent,
+    SidebarComponent,
+    NavbarComponent,
+    HomeComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

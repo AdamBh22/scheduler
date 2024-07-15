@@ -1,0 +1,45 @@
+<div class="sidebar">
+  <img src="assets/images/besoftilys.png" alt="Logo" class="logo">
+  <nav>
+    <ul>
+      <li>
+        <a routerLink="/home" routerLinkActive="active">
+          <i class="fas fa-home"></i>
+          <span>Home Page</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="toggleProjects()">
+          <i class="fas fa-tasks"></i>
+          <span>Projects</span>
+          <i class="fas fa-plus" *ngIf="!projectsExpanded"></i>
+          <i class="fas fa-minus" *ngIf="projectsExpanded"></i>
+        </a>
+        <ul *ngIf="projectsExpanded">
+          <li *ngFor="let project of projects">
+            <a (click)="toggleProjectTasks(project.id)">
+              <i class="fas fa-project-diagram"></i>
+              <span>{{project.name}}</span>
+              <i class="fas fa-plus" *ngIf="!project.expanded"></i>
+              <i class="fas fa-minus" *ngIf="project.expanded"></i>
+            </a>
+            <ul *ngIf="project.expanded">
+              <li *ngFor="let task of project.tasks">
+                <a routerLink="/task/{{task.id}}" routerLinkActive="active">
+                  <i class="fas fa-tasks"></i>
+                  <span>{{task.name}}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a routerLink="/dashboard" routerLinkActive="active">
+          <i class="fas fa-chart-line"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
