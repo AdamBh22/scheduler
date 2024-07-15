@@ -1,0 +1,76 @@
+<div class="home-container">
+  <div class="header">
+    <h1>Hello {{username}}!</h1>
+  </div>
+  <div class="content">
+    <div class="card">
+      <h2><i class="fas fa-folder"></i> Recents</h2>
+      <ul>
+        <li *ngFor="let recent of recents">
+          <i class="fas fa-folder"></i>
+          <span>{{recent.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><i class="fas fa-calendar"></i> Agenda</h2>
+      <div class="date">{{today | date: 'd MMMM yyyy'}}</div>
+      <ul>
+        <li *ngFor="let agendaItem of agenda">
+          <i class="fas fa-calendar"></i>
+          <span>{{agendaItem.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><i class="fas fa-briefcase"></i> My Work</h2>
+      <ul>
+        <li *ngIf="workItems.today.length">
+          <h3>Today</h3>
+          <ul>
+            <li *ngFor="let item of workItems.today">
+              <i class="fas fa-briefcase"></i>
+              <span>{{item.name}}</span>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="workItems.next.length">
+          <h3>Next</h3>
+          <ul>
+            <li *ngFor="let item of workItems.next">
+              <i class="fas fa-briefcase"></i>
+              <span>{{item.name}}</span>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="workItems.late.length">
+          <h3>Late</h3>
+          <ul>
+            <li *ngFor="let item of workItems.late">
+              <i class="fas fa-briefcase"></i>
+              <span>{{item.name}}</span>
+            </li>
+          </ul>
+        </li>
+        <li *ngIf="workItems.unplanned.length">
+          <h3>Unplanned</h3>
+          <ul>
+            <li *ngFor="let item of workItems.unplanned">
+              <i class="fas fa-briefcase"></i>
+              <span>{{item.name}}</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h2><i class="fas fa-tasks"></i> Attributed to Me</h2>
+      <ul>
+        <li *ngFor="let attributedItem of attributedItems">
+          <i class="fas fa-tasks"></i>
+          <span>{{attributedItem.name}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
