@@ -1,74 +1,91 @@
 <div class="home-container">
   <div class="header">
-    <h1>Hello {{username}}!</h1>
+    <h1 class="user"><i class="fa-solid fa-circle-user"></i> Hello {{username}}!</h1>
   </div>
+
   <div class="content">
-    <div class="card">
-      <h2><i class="fas fa-folder"></i> Recents</h2>
-      <ul>
-        <li *ngFor="let recent of recents">
-          <i class="fas fa-folder"></i>
-          <span>{{recent.name}}</span>
-        </li>
-      </ul>
+    <div class="card border-info mb-3">
+      <h2 class="card-header"><i class="fa-solid fa-newspaper"></i> Recents</h2>
+      <div class="card-body">
+        <ul>
+          <li *ngFor="let recent of recents" class="card-title">
+            <i class="fas fa-folder"></i>
+            <span class="card-item">{{recent.name}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="card">
-      <h2><i class="fas fa-calendar"></i> Agenda</h2>
-      <div class="date">{{today | date: 'd MMMM yyyy'}}</div>
-      <ul>
-        <li *ngFor="let agendaItem of agenda">
-          <i class="fas fa-calendar"></i>
-          <span>{{agendaItem.name}}</span>
-        </li>
-      </ul>
+
+    <div class="card border-info mb-3">
+      <h2 class="card-header"><i class="fas fa-calendar"></i> Agenda</h2>
+      <h2 class="date">{{today | date: 'd MMMM yyyy'}}</h2>
+      <table class="agenda-table">
+        <tr *ngFor="let agendaItem of agenda">
+          <td class="card-member">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span class="card-item">{{agendaItem.name}}</span>
+          </td>
+          <td class="card-project">{{agendaItem.project}}</td>
+        </tr>
+      </table>
     </div>
-    <div class="card">
-      <h2><i class="fas fa-briefcase"></i> My Work</h2>
-      <ul>
-        <li *ngIf="workItems.today.length">
-          <h3>Today</h3>
-          <ul>
-            <li *ngFor="let item of workItems.today">
-              <i class="fas fa-briefcase"></i>
-              <span>{{item.name}}</span>
-            </li>
-          </ul>
-        </li>
-        <li *ngIf="workItems.next.length">
-          <h3>Next</h3>
-          <ul>
-            <li *ngFor="let item of workItems.next">
-              <i class="fas fa-briefcase"></i>
-              <span>{{item.name}}</span>
-            </li>
-          </ul>
-        </li>
-        <li *ngIf="workItems.late.length">
-          <h3>Late</h3>
-          <ul>
-            <li *ngFor="let item of workItems.late">
-              <i class="fas fa-briefcase"></i>
-              <span>{{item.name}}</span>
-            </li>
-          </ul>
-        </li>
-        <li *ngIf="workItems.unplanned.length">
-          <h3>Unplanned</h3>
-          <ul>
-            <li *ngFor="let item of workItems.unplanned">
-              <i class="fas fa-briefcase"></i>
-              <span>{{item.name}}</span>
-            </li>
-          </ul>
-        </li>
-      </ul>
+
+    <div class="card border-info mb-3">
+      <h2 class="card-header"><i class="fas fa-briefcase"></i> My Work</h2>
+      <div class="work-list">
+        <div>
+          <h3 (click)="toggleWorkList('today')">
+            <i class="fa-solid fa-check"></i> Today ({{workItems.today.length}})
+          </h3>
+          <div *ngIf="isWorkListVisible.today" class="work-items">
+            <div *ngFor="let item of workItems.today">
+              <i class="fa-regular fa-star-half"></i>
+              <span> {{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 (click)="toggleWorkList('next')">
+            <i class="fa-solid fa-square-caret-right"></i> Next ({{workItems.next.length}})
+          </h3>
+          <div *ngIf="isWorkListVisible.next" class="work-items">
+            <div *ngFor="let item of workItems.next">
+              <i class="fa-regular fa-star-half"></i>
+              <span> {{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 (click)="toggleWorkList('late')">
+            <i class="fa-solid fa-circle-exclamation"></i> Late ({{workItems.late.length}})
+          </h3>
+          <div *ngIf="isWorkListVisible.late" class="work-items">
+            <div *ngFor="let item of workItems.late">
+              <i class="fa-regular fa-star-half"></i>
+              <span> {{item.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 (click)="toggleWorkList('unplanned')">
+            <i class="fa-regular fa-pen-to-square"></i> Unplanned ({{workItems.unplanned.length}})
+          </h3>
+          <div *ngIf="isWorkListVisible.unplanned" class="work-items">
+            <div *ngFor="let item of workItems.unplanned">
+              <i class="fa-regular fa-star-half"></i>
+              <span> {{item.name}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h2><i class="fas fa-tasks"></i> Attributed to Me</h2>
-      <ul>
+
+    <div class="card border-info mb-3" >
+      <h2 class="card-header"><i class="fa-solid fa-square-check"></i>Attributed to Me</h2>
+      <ul class="att-me-container">
         <li *ngFor="let attributedItem of attributedItems">
-          <i class="fas fa-tasks"></i>
-          <span>{{attributedItem.name}}</span>
+          <i class="fa-solid fa-circle-check"></i>
+          <span class="card-item">{{attributedItem.name}}</span>
         </li>
       </ul>
     </div>

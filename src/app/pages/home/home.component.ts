@@ -41,6 +41,19 @@ export class HomeComponent {
   ];
 
   constructor() { }
+  isWorkListVisible: {
+    today: boolean,
+    next: boolean,
+    late: boolean,
+    unplanned: boolean
+  } = {
+    today: false,
+    next: false,
+    late: false,
+    unplanned: false
+  };
 
-  ngOnInit(): void { }
+  toggleWorkList(list: 'today' | 'next' | 'late' | 'unplanned') {
+    this.isWorkListVisible[list] = !this.isWorkListVisible[list];
+  }
 }
