@@ -18,7 +18,7 @@
 }
 
 .card {
-  background-color: #d8ecfd;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -26,11 +26,11 @@
 
 .card h2 {
   font-size: 20px;
-  margin-bottom: 15px;
+  margin-bottom:0px;
 }
 
 .card h2 i {
-  margin-right: 10px;  /* More space between icon and text */
+  margin-right: 10px;
 }
 
 .card ul {
@@ -41,11 +41,12 @@
 .card ul li {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  margin-left: 25px;
 }
 
 .card ul li i {
-  margin-right: 15px;  /* More space between icon and text */
+  margin-right: 15px;
 }
 
 
@@ -53,4 +54,99 @@
   font-size: 18px;
   margin-bottom: 10px;
   margin-top: 20px;
+  font-weight: bold;
+}
+.date {
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 10px 20px;
+  color: #333;
+ // border-radius: 8px;
+  text-align: right;
+  font-weight: bold;
+}
+.card-item{
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+.card-project{
+  font-size: 16px;
+  font-weight: bold;
+}
+.agenda-table{
+  margin-left: 20px;
+}
+.work-list {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 30px;
+}
+
+.work-title {
+  cursor: pointer;
+  margin: 10px 0;
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.work-items {
+  list-style-type: none;
+  padding-left: 20px;
+  font-weight: bold;
+}
+
+.work-items li {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+.work-items li i {
+  margin-right: 10px;
+}
+.container{
+  margin-left: 20px;
+}
+.card-subtitle{
+  margin-top: 10px;
+}
+.table-container{
+  margin-left: 40px;
+}
+.home-container {
+  .work-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+
+  .work-items {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-top: 10px; // Ajoute de l'espace entre le titre et les tâches
+  }
+
+  .work-items li {
+    margin: 10px 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .work-items li i {
+    margin-right: 15px;
+  }
+
+  .date {
+    margin-top: 10px;
+    font-size: 1.5em;
+  }
+}
+.att-me-container{
+  margin-top: 10px;
+}
+.user{
+  font-size: 32px;
+  font-weight: bold;
 }
