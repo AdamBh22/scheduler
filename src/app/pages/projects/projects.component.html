@@ -1,0 +1,22 @@
+<!-- src/app/projects/projects.component.html -->
+<div class="projects-page">
+  <div class="projects-container">
+    <h2>Projects</h2>
+    <hr class="separator" />
+    <div class="add-project-form">
+      <input type="text" class="form-control" placeholder="New Project Name" [(ngModel)]="newProjectName" />
+      <button type="button" class="btn btn-outline-primary" (click)="addProject()">Add New Project</button>
+    </div>
+    <div class="projects">
+      <div class="card border-info mb-3" *ngFor="let project of projects" (click)="navigateToProject(project)">
+        <h3 class="card-header">{{ project.name }}</h3>
+        <p>Added by {{ project.addedBy }}</p>
+        <ul>
+          <li *ngFor="let task of project.tasks" class="task-container">
+            <i class="fa-solid fa-file-contract"></i> {{ task.name }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
