@@ -5,38 +5,26 @@
       <li>
         <a routerLink="/home" routerLinkActive="active">
           <i class="fas fa-home"></i>
-          <span>Home Page</span>
+          <span class="page-name">Home Page</span>
         </a>
       </li>
       <li>
-        <a (click)="toggleProjects()">
-          <i class="fas fa-tasks"></i>
-          <span>Projects</span>
-          <i class="fas fa-plus" *ngIf="!projectsExpanded"></i>
-          <i class="fas fa-minus" *ngIf="projectsExpanded"></i>
+        <a routerLink="/calendar" routerLinkActive="active">
+          <i class="fa-solid fa-calendar-day"></i>
+          <span>Calendar</span>
         </a>
-        <ul *ngIf="projectsExpanded">
-          <li *ngFor="let project of projects">
-            <a (click)="toggleProjectTasks(project.id)">
-              <i class="fas fa-project-diagram"></i>
-              <span>{{project.name}}</span>
-              <i class="fas fa-plus" *ngIf="!project.expanded"></i>
-              <i class="fas fa-minus" *ngIf="project.expanded"></i>
-            </a>
-            <ul *ngIf="project.expanded">
-              <li *ngFor="let task of project.tasks">
-                <a routerLink="/task/{{task.id}}" routerLinkActive="active">
-                  <i class="fas fa-tasks"></i>
-                  <span>{{task.name}}</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-        </ul>
       </li>
+
+      <li>
+        <a routerLink="/projects" routerLinkActive="active">
+          <i class="fa-solid fa-folder"></i>
+          <span>Projects</span>
+        </a>
+      </li>
+
       <li>
         <a routerLink="/dashboard" routerLinkActive="active">
-          <i class="fas fa-chart-line"></i>
+          <i class="fa-solid fa-chart-pie"></i>
           <span>Dashboard</span>
         </a>
       </li>

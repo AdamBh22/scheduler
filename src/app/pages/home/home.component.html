@@ -1,6 +1,6 @@
 <div class="home-container">
   <div class="header">
-    <h1 class="user"><i class="fa-solid fa-circle-user"></i> Hello {{username}}!</h1>
+    <h1 class="user"><i class="fa-solid fa-circle-user"></i> {{username}}</h1>
   </div>
 
   <div class="content">
@@ -9,7 +9,7 @@
       <div class="card-body">
         <ul>
           <li *ngFor="let recent of recents" class="card-title">
-            <i class="fas fa-folder"></i>
+            <i class="fa-solid fa-circle-info"></i>
             <span class="card-item">{{recent.name}}</span>
           </li>
         </ul>

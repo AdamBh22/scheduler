@@ -5,6 +5,9 @@
 
 .header {
   margin-bottom: 30px;
+  text-align: right;
+  margin-right:30px;
+  margin-top: 20px;
 }
 
 .header h1 {
@@ -119,13 +122,17 @@
   .work-list {
     list-style-type: none;
     padding: 0;
+
   }
-
-
   .work-items {
     list-style-type: none;
     padding-left: 20px;
     margin-top: 10px; // Ajoute de l'espace entre le titre et les tâches
+  }
+  .card {
+    max-height: 300px; // Vous pouvez ajuster la hauteur selon vos besoins
+    overflow-y: auto;
+    margin-bottom: 20px;
   }
 
   .work-items li {
