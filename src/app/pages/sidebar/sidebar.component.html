@@ -1,33 +1,45 @@
-<div class="sidebar">
-  <img src="assets/images/besoftilys.png" alt="Logo" class="logo">
-  <nav>
-    <ul>
-      <li>
-        <a routerLink="/home" routerLinkActive="active">
-          <i class="fas fa-home"></i>
-          <span class="page-name">Home Page</span>
-        </a>
-      </li>
-      <li>
-        <a routerLink="/calendar" routerLinkActive="active">
-          <i class="fa-solid fa-calendar-day"></i>
-          <span>Calendar</span>
-        </a>
-      </li>
-
-      <li>
-        <a routerLink="/projects" routerLinkActive="active">
-          <i class="fa-solid fa-folder"></i>
-          <span>Projects</span>
-        </a>
-      </li>
-
-      <li>
-        <a routerLink="/dashboard" routerLinkActive="active">
-          <i class="fa-solid fa-chart-pie"></i>
-          <span>Dashboard</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-flex flex-column justify-content-between col-auto bg-dark min-vh-100">
+      <div>
+        <img src="assets/images/besoftilys.png" alt="Logo" class="logo">
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link" (click)="navigateTo('home')" [class.active]="currentView === 'home'" aria-current="page">
+              <i class="fa-solid fa-house"></i>
+              <span class="subtitle">Home</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" (click)="toggleProjects()" aria-current="page">
+              <i class="fa-regular fa-folder"></i>
+              <span class="subtitle">Projects</span>
+              <i class="fa-solid fa-plus ms-2" (click)="openAddNewProjectModal($event)"></i>
+            </a>
+            <ul *ngIf="showProjects" class="nav flex-column ms-3">
+              <li class="nav-item" *ngFor="let project of projects">
+                <a href="#" class="nav-link" (click)="navigateToProject(project.id)">
+                  <i class="fa-solid fa-bars"></i>
+                  <span class="project-name">{{project.name}}</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" (click)="navigateTo('calendar')" [class.active]="currentView === 'calendar'" aria-current="page">
+              <i class="fa-regular fa-calendar"></i>
+              <span class="subtitle">Calendar</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" (click)="navigateTo('dashboard')" [class.active]="currentView === 'dashboard'" aria-current="page">
+              <i class="fa-solid fa-chart-pie"></i>
+              <span class="ms-2" class="subtitle">Dashboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
+<app-new-project-modal (projectAdded)="onProjectAdded($event)"></app-new-project-modal>

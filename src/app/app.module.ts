@@ -13,10 +13,12 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { SidebarComponent } from './pages/sidebar/sidebar.component';
 import { NavbarComponent } from './pages/navbar/navbar.component';
 import { HomeComponent } from './pages/home/home.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ProjectTableComponent } from './pages/project-table/project-table.component';
 import { ProjectGanttComponent } from './pages/project-gantt/project-gantt.component';
+import { CalendarComponent } from './pages/calendar/calendar.component';
+import { NewProjectModalComponent } from './pages/sidebar/new-project-modal/new-project-modal.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { ProjectGanttComponent } from './pages/project-gantt/project-gantt.compo
     DashboardComponent,
     ProjectsComponent,
     ProjectTableComponent,
-    ProjectGanttComponent
+    ProjectGanttComponent,
+    CalendarComponent,
+    NewProjectModalComponent
   ],
   imports: [
     BrowserModule,

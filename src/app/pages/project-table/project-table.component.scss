@@ -12,6 +12,10 @@
     margin-bottom: 10px;
   }
 
+  .btn {
+    margin-top: 50px;
+  }
+
   .separator {
     border: none;
     border-top: 1px solid #ccc;
@@ -22,6 +26,7 @@
     display: flex;
     margin-bottom: 20px;
     font-weight: bold;
+
     .tab {
       margin-right: 20px;
       padding-bottom: 5px;
@@ -70,15 +75,58 @@
 
     td {
       background-color: #ffffff;
+      &.table-content {
+        margin-left: 20px;
+      }
     }
 
     .fa {
       margin-right: 5px;
     }
-    .tab-elem{
+
+    .tab-elem {
       font-size: 17px;
       font-weight: bold;
       margin-left: 10px;
+    }
+
+    .status-in-progress {
+      color: #036ed6;
+    }
+
+    .status-late {
+      color: #ff4418;
+    }
+
+    .status-next {
+      color: green;
+    }
+
+    .priority-high {
+      color: #ff4418;
+    }
+
+    .priority-middle {
+      color: #f8cf04;
+    }
+
+    .priority-low {
+      color: green;
+    }
+
+    .fa-flag-high::before {
+      content: '\f024';
+      color: #ff4418;
+    }
+
+    .fa-flag-middle::before {
+      content: '\f024';
+      color: #f8cf04;
+    }
+
+    .fa-flag-low::before {
+      content: '\f024';
+      color: green;
     }
   }
 }

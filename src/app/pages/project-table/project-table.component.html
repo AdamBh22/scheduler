@@ -23,15 +23,16 @@
       </thead>
       <tbody>
       <tr *ngFor="let task of tasks; let i = index">
-        <td class="tab-elem">{{ i + 1 }}</td>
-        <td class="tab-elem">{{ task.name }}</td>
-        <td class="tab-elem">{{ task.assignedTo }}</td>
-        <td class="tab-elem">{{ task.status }}</td>
-        <td class="tab-elem">{{ task.deadline | date: 'dd/MM/yyyy' }}</td>
-        <td class="tab-elem">{{ task.priority }}</td>
+        <td class="tab-elem table-content"> {{ i + 1 }}</td>
+        <td class="tab-elem table-content"> {{ task.name }}</td>
+        <td class="tab-elem table-content"> {{ task.assignedTo }}</td>
+        <td class="tab-elem table-content" [ngClass]="getStatusClass(task.status)"> {{ task.status }}</td>
+        <td class="tab-elem table-content"> {{ task.deadline | date: 'dd/MM/yyyy' }}</td>
+        <td class="tab-elem table-content" [ngClass]="getPriorityClass(task.priority)">
+          <i class="fa" [ngClass]="getPriorityIconClass(task.priority)"></i> {{ task.priority }}
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
-
