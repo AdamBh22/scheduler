@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Modal } from 'bootstrap';
 
 @Component({
   selector: 'app-sidebar',
@@ -6,21 +8,40 @@ import { Component } from '@angular/core';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  projectsExpanded = false;
+  currentView: string = 'home';
+  showProjects: boolean = false;
   projects = [
-    { id: 1, name: 'Project 1', expanded: false, tasks: [{ id: 1, name: 'Task 1' }, { id: 2, name: 'Task 2' }] },
-    { id: 2, name: 'Project 2', expanded: false, tasks: [{ id: 3, name: 'Task 1' }] },
-    { id: 3, name: 'Project 3', expanded: false, tasks: [] }
+    { id: 1, name: 'Project 1' },
+    { id: 2, name: 'Project 2' },
+    { id: 3, name: 'Project 3' }
   ];
 
-  toggleProjects() {
-    this.projectsExpanded = !this.projectsExpanded;
+  constructor(private router: Router) {}
+
+  navigateTo(view: string) {
+    this.currentView = view;
+    this.router.navigate([view]);
   }
 
-  toggleProjectTasks(projectId: number) {
-    const project = this.projects.find(p => p.id === projectId);
-    if (project) {
-      project.expanded = !project.expanded;
+  toggleProjects() {
+    this.showProjects = !this.showProjects;
+  }
+
+  openAddNewProjectModal(event: MouseEvent) {
+    event.stopPropagation();
+    const modalElement = document.getElementById('newProjectModal');
+    if (modalElement) {
+      const modal = new Modal(modalElement);
+      modal.show();
     }
+  }
+
+  onProjectAdded(newProject: { id: number, name: string }) {
+    this.projects.push(newProject);
+  }
+
+  navigateToProject(projectId: number) {
+    this.currentView = `project-${projectId}`;
+    this.router.navigate([`project/${projectId}`]);
   }
 }

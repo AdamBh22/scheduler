@@ -1,0 +1,30 @@
+<div class="calendar-page">
+  <h2>Calendar</h2>
+  <hr class="separator" />
+  <div class="month-year">{{ monthName }} {{ year }}</div>
+  <div class="calendar-container">
+    <table class="calendar-table">
+      <thead>
+      <tr>
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let week of calendar">
+        <td *ngFor="let day of week" [class.today]="day.isToday">
+          <div class="tasks">
+            <div *ngFor="let task of day.tasks">{{ task }}</div>
+          </div>
+          <div class="date">{{ day.date }}</div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

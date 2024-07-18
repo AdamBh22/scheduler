@@ -1,61 +1,58 @@
-.sidebar {
-  background-color: #d8ecfd;
-  width: 250px;
+.container-fluid {
+  width: 300px;
   height: 100vh;
   position: fixed;
   top: 0;
   left: 0;
-  padding: 20px;
-  overflow-y: auto;
+  .row {
+    .bg-dark {
+      background-color: #9AC5F4 !important;
+    }
+    .nav-item {
+      .nav-link {
+        color: #ffffff;
+        margin-top: 10px;
+        margin-left: 5px;
+        &:hover {
+          background-color: #ffffff;
+          color:#9AC5F4;
+        }
+        &.active {
+          background-color: #ffffff;
+          color:#9AC5F4;
+        }
+      }
+    }
+    .project-name{
+      font-weight: bold;
+      font-size: 16px;
+      margin-left: 5px;
+    }
+  }
+  .header{
+    font-weight: bold;
+    font-size: 22px;
+    color: #ffffff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    &:hover {
+      color:#9AC5F4;
+    }
+    &.active {
+      color:#9AC5F4;
+    }
+  }
 }
-
+.subtitle{
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 .logo {
-  max-width: 100%;
-  height: auto;
+  max-width: 200px;
   margin-bottom: 30px;
 }
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 7px;
-}
-
-nav ul li {
-  margin-bottom: 10px;
-  margin-top: 7px;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: #333;
-  display: flex;
-  align-items: center;
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-nav ul li a.active {
-  font-weight: bold;
-  margin-top: 7px;
-}
-
-nav ul li a i {
-  margin-left: 15px;
-  margin-top: 7px;/* More space between icon and text */
-}
-
-nav ul li ul {
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-nav ul li ul li a {
-  font-size: 16px;
-  margin-top: 10px;
-}
-span{
-  margin-left: 20px;
-  margin-top: 10px;
-  font-weight: bold;
+#addNewProjectModal .modal-content {
+  color: #ffffff;
 }

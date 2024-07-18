@@ -80,7 +80,7 @@
           margin-bottom: 5px;
 
           i {
-            margin-right: 5px; /* Adjust margin as needed */
+            margin-right: 5px;
           }
         }
       }
@@ -98,13 +98,5 @@
         margin-top: 5px;
       }
     }
-  }
-}
-
-.right-side-text {
-  display: flex;
-  align-items: flex-start; /* Aligns text to the top of the container */
-  p {
-    margin: 0;
   }
 }

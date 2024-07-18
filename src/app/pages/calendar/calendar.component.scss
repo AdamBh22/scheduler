@@ -1,0 +1,66 @@
+.calendar-page {
+  margin-left: 250px;
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  .separator {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+
+  .calendar-container {
+    overflow-y: auto;
+    max-height: 80vh; // Adjust the height as needed
+  }
+
+  .calendar-table {
+    width: 1400px;
+    border-collapse: collapse;
+    margin-left: 50px;
+    margin-top: 50px;
+
+    th {
+      background-color: #e0f7fa;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    td {
+      width: calc(100% / 7);
+      height: 110px; // Adjust the height as needed
+      border: 1px solid #ccc;
+      vertical-align: top;
+      position: relative;
+      padding: 5px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .tasks {
+      max-height: 80px;
+      overflow-y: auto;
+    }
+
+    .date {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-weight: bold;
+    }
+
+    .today {
+      background-color: rgba(210, 246, 245, 0.95); // Highlight color for today
+    }
+  }
+}
+.month-year{
+  text-align: right;
+  font-weight: bold;
+  font-size: 30px;
+  margin-right: 70px;
+}
