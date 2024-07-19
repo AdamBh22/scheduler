@@ -4,55 +4,114 @@
   position: fixed;
   top: 0;
   left: 0;
+
   .row {
     .bg-dark {
       background-color: #9AC5F4 !important;
     }
+
     .nav-item {
       .nav-link {
         color: #ffffff;
         margin-top: 10px;
         margin-left: 5px;
+
         &:hover {
           background-color: #ffffff;
-          color:#9AC5F4;
+          color: #9AC5F4;
         }
+
         &.active {
           background-color: #ffffff;
-          color:#9AC5F4;
+          color: #9AC5F4;
+        }
+      }
+
+      .project-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .fa-bars, .fa-ellipsis {
+          margin-right: 5px;
+        }
+      }
+
+      .project-name{
+        margin-left: 10px;
+        margin-right: 15px;
+      }
+
+      .tasks-list {
+        list-style-type: none;
+        padding-left: 1em;
+
+        .tasks {
+          display: flex;
+          align-items: center;
+          font-weight: bold;
+          font-size: 16px;
+          margin-left: 8px;
+          .tasks-link {
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+
+            &:hover {
+              background-color: transparent;
+              color: #9AC5F4;
+
+              .fa-file-contract {
+                color: #9AC5F4;
+              }
+            }
+            .task-name{
+              margin-left: 8px;
+            }
+            .fa-file-contract {
+              margin-right: 5px;
+            }
+          }
         }
       }
     }
-    .project-name{
+
+    .project-name {
       font-weight: bold;
       font-size: 16px;
       margin-left: 5px;
     }
   }
-  .header{
+
+  .header {
     font-weight: bold;
     font-size: 22px;
     color: #ffffff;
     margin-top: 20px;
     margin-bottom: 20px;
+
     &:hover {
-      color:#9AC5F4;
+      color: #9AC5F4;
     }
+
     &.active {
-      color:#9AC5F4;
+      color: #9AC5F4;
     }
   }
 }
-.subtitle{
+
+.subtitle {
   font-weight: bold;
   font-size: 18px;
   margin-left: 10px;
   margin-right: 10px;
 }
+
 .logo {
   max-width: 200px;
   margin-bottom: 30px;
 }
+
 #addNewProjectModal .modal-content {
   color: #ffffff;
 }
