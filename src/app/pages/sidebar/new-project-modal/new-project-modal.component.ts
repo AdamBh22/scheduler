@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Modal } from 'bootstrap';
+import { Project } from '../../../models/project.model';
 
 @Component({
   selector: 'app-new-project-modal',
@@ -7,22 +8,15 @@ import { Modal } from 'bootstrap';
   styleUrls: ['./new-project-modal.component.scss']
 })
 export class NewProjectModalComponent {
-  @Output() projectAdded = new EventEmitter<{ id: number, name: string }>();
+  @Output() projectAdded: EventEmitter<Project> = new EventEmitter<Project>();
   newProjectName: string = '';
-
-  openModal() {
-    const modalElement = document.getElementById('newProjectModal');
-    if (modalElement) {
-      const modal = new Modal(modalElement);
-      modal.show();
-    }
-  }
 
   addNewProject() {
     if (this.newProjectName.trim()) {
-      const newProject = {
-        id: Date.now(), // Using current timestamp as a unique ID
-        name: this.newProjectName.trim()
+      const newProject: Project = {
+        id: Date.now(),
+        name: this.newProjectName.trim(),
+        tasks: []
       };
       this.projectAdded.emit(newProject);
       this.newProjectName = '';

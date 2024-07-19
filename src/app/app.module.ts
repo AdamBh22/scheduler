@@ -19,6 +19,8 @@ import { ProjectTableComponent } from './pages/project-table/project-table.compo
 import { ProjectGanttComponent } from './pages/project-gantt/project-gantt.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { NewProjectModalComponent } from './pages/sidebar/new-project-modal/new-project-modal.component';
+import { OptionsModalComponent } from './pages/sidebar/options-modal/options-modal.component';
+import { NewTaskModalComponent } from './pages/sidebar/new-task-modal/new-task-modal.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { NewProjectModalComponent } from './pages/sidebar/new-project-modal/new-
     ProjectTableComponent,
     ProjectGanttComponent,
     CalendarComponent,
-    NewProjectModalComponent
+    NewProjectModalComponent,
+    OptionsModalComponent,
+    NewTaskModalComponent
   ],
   imports: [
     BrowserModule,
