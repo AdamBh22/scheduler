@@ -6,9 +6,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <button class="btn btn-danger w-100 mb-2" (click)="onDeleteProject()">Delete Project</button>
-        <button class="btn btn-primary w-100" (click)="onAddNewTask()">Add New Task</button>
+        <button class="btn btn-danger w-100 mb-2" (click)="onDeleteProject($event)">Delete Project</button>
+        <button class="btn btn-primary w-100" (click)="onAddNewTask($event)">Add New Task</button>
       </div>
     </div>
   </div>
 </div>
+
