@@ -21,6 +21,7 @@ import { CalendarComponent } from './pages/calendar/calendar.component';
 import { NewProjectModalComponent } from './pages/sidebar/new-project-modal/new-project-modal.component';
 import { OptionsModalComponent } from './pages/sidebar/options-modal/options-modal.component';
 import { NewTaskModalComponent } from './pages/sidebar/new-task-modal/new-task-modal.component';
+import { UserProfileModalComponent } from './pages/navbar/user-profile-modal/user-profile-modal.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NewTaskModalComponent } from './pages/sidebar/new-task-modal/new-task-m
     CalendarComponent,
     NewProjectModalComponent,
     OptionsModalComponent,
-    NewTaskModalComponent
+    NewTaskModalComponent,
+    UserProfileModalComponent
   ],
   imports: [
     BrowserModule,

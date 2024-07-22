@@ -1,0 +1,40 @@
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  img {
+    height: 30px;
+    margin-right: 10px;
+  }
+}
+
+.form-control {
+  width: 250px;
+}
+
+.btn-outline-success {
+  color: #43c5fd;
+  border-color: #43c5fd;
+}
+
+.btn-outline-success:hover {
+  background-color: #43c5fd;
+  color: white;
+}
+
+.btn-secondary {
+  color: #43c5fd;
+  background-color: transparent;
+  border-color: #43c5fd;
+}
+
+.btn-secondary:hover {
+  background-color: #43c5fd;
+  color: white;
+}
+
+.dropdown-menu {
+  button {
+    width: 100%;
+    text-align: left;
+  }
+}

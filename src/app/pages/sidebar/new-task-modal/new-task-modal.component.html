@@ -9,7 +9,7 @@
         <form (ngSubmit)="addNewTask()">
           <div class="mb-3">
             <label for="taskName" class="form-label">Task Name</label>
-            <input type="text" class="form-control" id="taskName" [(ngModel)]="newTaskName" name="taskName" required>
+            <input type="text" class="form-control" id="taskName" [(ngModel)]="newTaskName" name="taskName" placeholder="Enter the task name" required>
           </div>
           <div class="mb-3">
             <label for="Status" class="form-label">Status</label>
@@ -46,8 +46,8 @@
           </div>
 
           <div class="mb-3">
-            <label for="AssignedTo" class="form-label">Assigned To</label>
-            <input type="text" class="form-control" id="AssignedTo" [(ngModel)]="assignedTo" name="AssignedTo" required>
+            <label for="AssignedTo" class="form-label" >Assigned To</label>
+            <input type="text" class="form-control" id="AssignedTo" [(ngModel)]="assignedTo" name="AssignedTo" placeholder="Assigned to ..." required>
           </div>
 
           <div class="mb-3">

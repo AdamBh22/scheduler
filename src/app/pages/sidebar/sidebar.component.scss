@@ -6,6 +6,11 @@
   left: 0;
 
   .row {
+    width: 300px;
+    height: calc(100vh - 56px);
+    position: fixed;
+    top: 56px;
+    left: 0;
     .bg-dark {
       background-color: #9AC5F4 !important;
     }
@@ -114,4 +119,7 @@
 
 #addNewProjectModal .modal-content {
   color: #ffffff;
+}
+.sidebar{
+
 }

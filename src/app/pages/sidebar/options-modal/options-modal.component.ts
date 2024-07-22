@@ -21,13 +21,15 @@ export class OptionsModalComponent {
     }
   }
 
-  onDeleteProject() {
+  onDeleteProject(event:Event) {
+    event.stopPropagation();
     this.deleteProject.emit(this.projectId);
     this.closeModal();
   }
 
-  onAddNewTask() {
-    this.addNewTask.emit(this.projectId); // Emit the projectId only
+  onAddNewTask(event:Event) {
+    event.stopPropagation();
+    this.addNewTask.emit(this.projectId);
     this.closeModal();
   }
 
