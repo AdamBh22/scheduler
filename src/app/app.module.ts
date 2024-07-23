@@ -22,6 +22,7 @@ import { NewProjectModalComponent } from './pages/sidebar/new-project-modal/new-
 import { OptionsModalComponent } from './pages/sidebar/options-modal/options-modal.component';
 import { NewTaskModalComponent } from './pages/sidebar/new-task-modal/new-task-modal.component';
 import { UserProfileModalComponent } from './pages/navbar/user-profile-modal/user-profile-modal.component';
+import { TaskModalComponent } from './pages/task-modal/task-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UserProfileModalComponent } from './pages/navbar/user-profile-modal/use
     NewProjectModalComponent,
     OptionsModalComponent,
     NewTaskModalComponent,
-    UserProfileModalComponent
+    UserProfileModalComponent,
+    TaskModalComponent
   ],
   imports: [
     BrowserModule,

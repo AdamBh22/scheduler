@@ -1,10 +1,10 @@
 <div class="container-fluid">
   <div class="row">
     <div class="d-flex flex-column justify-content-between col-auto bg-dark min-vh-100">
-      <div>
+      <div class="items-container">
         <ul class="nav nav-pills flex-column">
           <li class="nav-item">
-            <a href="#" class="nav-link" (click)="navigateTo('home')" [class.active]="currentView === 'home'" aria-current="page">
+            <a href="home" class="nav-link" (click)="navigateTo('/home')" [class.active]="currentView === 'home'" aria-current="page">
               <i class="fa-solid fa-house"></i>
               <span class="subtitle">Home</span>
             </a>
@@ -38,13 +38,13 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" (click)="navigateTo('calendar')" [class.active]="currentView === 'calendar'" aria-current="page">
+            <a href="calendar" class="nav-link" (click)="navigateTo('/calendar')" [class.active]="currentView === 'calendar'" aria-current="page">
               <i class="fa-regular fa-calendar"></i>
               <span class="subtitle">Calendar</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" (click)="navigateTo('dashboard')" [class.active]="currentView === 'dashboard'" aria-current="page">
+            <a href="dashboard" class="nav-link" (click)="navigateTo('/dashboard')" [class.active]="currentView === 'dashboard'" aria-current="page">
               <i class="fa-solid fa-chart-pie"></i>
               <span class="ms-2 subtitle">Dashboard</span>
             </a>

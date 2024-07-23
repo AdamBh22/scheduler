@@ -1,3 +1,7 @@
+import { Dependency } from './dependency.model';
+import { Comment } from './comment.model';
+import { Activity } from './activity.model';
+
 export class Task {
   constructor(
     public id: number,
@@ -5,6 +9,11 @@ export class Task {
     public status: string,
     public priority: string,
     public assignedTo: string,
-    public deadline: Date
+    public starting: Date,
+    public ending: Date,
+    public dependencies: Dependency[], // Use public to make these properties accessible
+    public description: string, // Use public to make these properties accessible
+    public comments: Comment[], // Use public to make these properties accessible
+    public activities: Activity[] // Use public to make these properties accessible
   ) {}
 }

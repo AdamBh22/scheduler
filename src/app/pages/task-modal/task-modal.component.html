@@ -1,0 +1,44 @@
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel">{{ task.name }}</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Status:</strong> <span [ngClass]="{'text-success': task.status === 'Complete', 'text-danger': task.status === 'Late'}">{{ task.status }}</span></p>
+        <p><strong>Deadline:</strong> {{ task.ending | date: 'dd/MM/yyyy' }}</p>
+        <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+        <p><strong>Priority:</strong> {{ task.priority }}</p>
+        <p><strong>Dependency:</strong></p>
+        <ul>
+          <li *ngFor="let dependency of task.dependencies">
+            <span [ngClass]="{'text-warning': dependency.status === 'On Hold', 'text-danger': dependency.status === 'Blocking'}">{{ dependency.status }} with {{ dependency.task1.name }}</span>
+          </li>
+        </ul>
+        <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Sub-Tasks:</strong></p>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Write the Task Name" aria-label="Write the Task Name">
+          <button class="btn btn-primary" type="button">Add a New Task</button>
+        </div>
+        <p><strong>Comments:</strong></p>
+        <ul>
+          <li *ngFor="let comment of task.comments">
+            <strong>{{ comment.author.fullName }}:</strong> {{ comment.text }}
+          </li>
+        </ul>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Write a comment ...." aria-label="Write a comment ....">
+          <button class="btn btn-primary" type="button">Send</button>
+        </div>
+        <p><strong>Activities:</strong></p>
+        <ul>
+          <li *ngFor="let activity of task.activities">
+            {{ activity.user.fullName}} {{ activity.name }} {{ activity.id | date: 'dd/MM/yyyy' }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
