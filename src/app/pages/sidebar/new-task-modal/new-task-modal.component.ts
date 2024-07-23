@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Task } from '../../../models/task.model';
+import { Dependency } from '../../../models/dependency.model';
+import { Comment } from '../../../models/comment.model';
+import { Activity } from '../../../models/activity.model';
 import { Modal } from 'bootstrap';
 
 @Component({
@@ -15,7 +18,12 @@ export class NewTaskModalComponent {
   status: string = 'To Do';
   priority: string = 'Medium';
   assignedTo: string = '';
-  deadline: Date = new Date();
+  starting: Date = new Date();
+  ending: Date = new Date();
+  description: string = '';
+  dependencies: Dependency[]=[];
+  comments: Comment[]=[];
+  activities: Activity[]=[];
 
   addNewTask() {
     if (this.newTaskName.trim()) {
@@ -25,10 +33,15 @@ export class NewTaskModalComponent {
         this.status,
         this.priority,
         this.assignedTo,
-        this.deadline
+        this.starting,
+        this.ending,
+        this.dependencies=[],
+        this.description,
+        this.comments,
+        this.activities
       );
       this.taskAdded.emit({ projectId: this.projectId, task: newTask });
-      this.newTaskName = ''; // Clear the input fields
+      this.newTaskName = '';
       this.closeModal();
     }
   }

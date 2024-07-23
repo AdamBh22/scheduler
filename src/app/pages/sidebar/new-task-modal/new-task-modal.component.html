@@ -21,6 +21,7 @@
               #role="ngModel"
             >
               <option value="" disabled selected>Select the task Status</option>
+              <option value="Complete">Complete</option>
               <option value="In Progress">In Progress</option>
               <option value="Late">Late</option>
               <option value="Unplanned">Unplanned</option>
@@ -51,8 +52,18 @@
           </div>
 
           <div class="mb-3">
-            <label for="Deadline" class="form-label">Deadline</label>
-            <input type="date" class="form-control" id="Deadline" [(ngModel)]="deadline" name="Deadline" required>
+            <label for="Starting" class="form-label">Starting</label>
+            <input type="date" class="form-control" id="Starting" [(ngModel)]="starting" name="Starting" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="Ending" class="form-label">Ending</label>
+            <input type="date" class="form-control" id="Ending" [(ngModel)]="ending" name="Ending" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="Description" class="form-label" >Description</label>
+            <input type="text" class="form-control" id="Description" [(ngModel)]="description" name="Desxription" placeholder="Describe the task ..." required>
           </div>
 
           <button type="submit" class="btn btn-primary w-100">Create Task</button>
