@@ -1,0 +1,27 @@
+<div class="modal fade" id="newDependencyModal" tabindex="-1" aria-labelledby="newDependencyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newDependencyModalLabel">Create Dependency</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createDependency()">
+          <div class="mb-3">
+            <label for="taskSelect" class="form-label">Task</label>
+            <select class="form-select" id="taskSelect" [(ngModel)]="selectedTask" name="taskSelect" required>
+              <option *ngFor="let task of tasks" [value]="task">{{ task.name }}</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="dependencyType" class="form-label">Type of Dependency</label>
+            <select class="form-select" id="dependencyType" [(ngModel)]="dependencyType" name="dependencyType" required>
+              <option *ngFor="let type of dependencyTypes" [value]="type">{{ type }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Create Dependency</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

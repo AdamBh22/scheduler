@@ -17,20 +17,20 @@
             </a>
             <ul *ngIf="showProjects" class="nav flex-column ms-3">
               <li class="nav-item" *ngFor="let project of projects">
-                <a href="#" class="nav-link project-link">
+                <a href="#" class="nav-link project-link" (click)="navigateToProject($event, project.id)">
                   <div class="d-flex align-items-center justify-content-between">
                     <div>
                       <i class="fa-solid fa-bars"></i>
-                      <span class="project-name">{{project.name}}</span>
+                      <span class="project-name">{{ project.name }}</span>
                     </div>
                     <i class="fa-solid fa-ellipsis" (click)="openOptionsModal($event, project.id)"></i>
                   </div>
                 </a>
                 <ul class="tasks-list">
                   <li class="tasks" *ngFor="let task of project.tasks">
-                    <a href="#" class="tasks-link" (click)="navigateToTask(task.id)">
+                    <a href="#" class="tasks-link" (click)="navigateToTask($event, task.id)">
                       <i class="fa-solid fa-file-contract"></i>
-                      <span class="task-name">{{task.name}}</span>
+                      <span class="task-name">{{ task.name }}</span>
                     </a>
                   </li>
                 </ul>
@@ -38,13 +38,13 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="calendar" class="nav-link" (click)="navigateTo('/calendar')" [class.active]="currentView === 'calendar'" aria-current="page">
+            <a href="/calendar" class="nav-link" (click)="navigateTo('/calendar')" [class.active]="currentView === 'calendar'" aria-current="page">
               <i class="fa-regular fa-calendar"></i>
               <span class="subtitle">Calendar</span>
             </a>
           </li>
           <li class="nav-item">
-            <a href="dashboard" class="nav-link" (click)="navigateTo('/dashboard')" [class.active]="currentView === 'dashboard'" aria-current="page">
+            <a href="/dashboard" class="nav-link" (click)="navigateTo('/dashboard')" [class.active]="currentView === 'dashboard'" aria-current="page">
               <i class="fa-solid fa-chart-pie"></i>
               <span class="ms-2 subtitle">Dashboard</span>
             </a>
@@ -58,3 +58,4 @@
 <app-new-project-modal (projectAdded)="onProjectAdded($event)"></app-new-project-modal>
 <app-options-modal #optionsModal (deleteProject)="deleteProject($event)" (addNewTask)="onAddNewTask($event)"></app-options-modal>
 <app-new-task-modal #newTaskModal (taskAdded)="addNewTask($event)"></app-new-task-modal>
+<app-task-modal #taskModal></app-task-modal>

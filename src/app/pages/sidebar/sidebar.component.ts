@@ -1,14 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project.model';
 import { Task } from '../../models/task.model';
 import { Modal } from 'bootstrap';
 import { OptionsModalComponent } from './options-modal/options-modal.component';
 import { NewTaskModalComponent } from './new-task-modal/new-task-modal.component';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
-import { Dependency } from '../../models/dependency.model';
-import { Comment } from '../../models/comment.model';
-import { Activity } from '../../models/activity.model';
-import { User } from '../../models/user.model';
 import { Router } from "@angular/router";
 
 @Component({
@@ -16,12 +12,10 @@ import { Router } from "@angular/router";
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, AfterViewInit {
   @ViewChild('optionsModal') optionsModal!: OptionsModalComponent;
   @ViewChild('newTaskModal') newTaskModal!: NewTaskModalComponent;
   @ViewChild('taskModal') taskModal!: TaskModalComponent;
-  constructor(private router: Router) {
-  }
 
   currentView: string = 'home';
   showProjects: boolean = false;
@@ -35,28 +29,42 @@ export class SidebarComponent implements OnInit {
     ])
   ];
 
+  constructor(private router: Router) { }
+
   ngOnInit(): void {}
 
+  ngAfterViewInit(): void {
+    console.log('TaskModalComponent:', this.taskModal); // Debug log to check initialization
+  }
+
   navigateTo(view: string) {
-    this.router.navigate([`/${this.router}`]);
+    this.router.navigate([`/${view}`]);
+    this.currentView = view;
   }
 
   toggleProjects() {
     this.showProjects = !this.showProjects;
   }
 
-  navigateToProject(projectId: number) {
-    console.log(`Navigating to project ${projectId}`);
+  navigateToProject(event: Event, projectId: number) {
+    event.preventDefault();
+    this.router.navigate([`/project-table/${projectId}`]);
   }
 
-  navigateToTask(taskId: number) {
+  navigateToTask(event: Event, taskId: number) {
+    event.preventDefault();
     const project = this.projects.find(p => p.tasks.some(t => t.id === taskId));
     if (project) {
       const task = project.tasks.find(t => t.id === taskId);
       if (task) {
         this.taskModal.task = task;
+        this.taskModal.tasks = project.tasks; // Pass the list of all tasks in the project
         this.taskModal.openModal();
+      } else {
+        console.error('Task not found');
       }
+    } else {
+      console.error('Project not found');
     }
   }
 

@@ -9,6 +9,7 @@ import {HomeComponent} from "./pages/home/home.component";
 import {ProjectTableComponent} from "./pages/project-table/project-table.component";
 import {ProjectGanttComponent} from "./pages/project-gantt/project-gantt.component";
 import {CalendarComponent} from "./pages/calendar/calendar.component";
+import {TaskModalComponent} from "./pages/task-modal/task-modal.component";
 
 const routes: Routes = [
   {
@@ -42,6 +43,10 @@ const routes: Routes = [
   {
     path: 'calendar',
     component: CalendarComponent
+  },
+  {
+    path:'taskModal',
+    component: TaskModalComponent
   }
 ];
 

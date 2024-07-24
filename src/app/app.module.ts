@@ -23,6 +23,7 @@ import { OptionsModalComponent } from './pages/sidebar/options-modal/options-mod
 import { NewTaskModalComponent } from './pages/sidebar/new-task-modal/new-task-modal.component';
 import { UserProfileModalComponent } from './pages/navbar/user-profile-modal/user-profile-modal.component';
 import { TaskModalComponent } from './pages/task-modal/task-modal.component';
+import { NewDependencyModalComponent } from './pages/task-modal/new-dependency-modal/new-dependency-modal.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { TaskModalComponent } from './pages/task-modal/task-modal.component';
     OptionsModalComponent,
     NewTaskModalComponent,
     UserProfileModalComponent,
-    TaskModalComponent
+    TaskModalComponent,
+    NewDependencyModalComponent
   ],
   imports: [
     BrowserModule,
