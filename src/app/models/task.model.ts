@@ -11,9 +11,9 @@ export class Task {
     public assignedTo: string,
     public starting: Date,
     public ending: Date,
-    public dependencies: Dependency[], // Use public to make these properties accessible
-    public description: string, // Use public to make these properties accessible
-    public comments: Comment[], // Use public to make these properties accessible
-    public activities: Activity[] // Use public to make these properties accessible
+    public dependencies: Dependency[],
+    public description: string,
+    public comments: Comment[],
+    public activities: Activity[]
   ) {}
 }
