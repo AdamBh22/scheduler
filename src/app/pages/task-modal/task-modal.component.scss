@@ -1,7 +1,12 @@
 .task-modal {
   padding: 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  max-width: 100%;  // Adjust width as needed
+  min-height: 60vh;  // Adjust height as needed
+
+  .modal-content {
+    width: 100%;
+    height: 100%;
+  }
 
   .task-header {
     border-bottom: 1px solid #000;
@@ -21,6 +26,7 @@
 
       strong {
         margin-right: 10px;
+        font-size: 20px;
       }
 
       span.complete {
@@ -117,7 +123,6 @@
   }
 
   .activities {
-    border-top: 1px solid #000;
     padding-top: 20px;
 
     h3 {
@@ -133,4 +138,34 @@
       }
     }
   }
+
+  .separator {
+    border-left: 2px solid #000;
+    height: 100%;
+  }
+
+  .bg-blue {
+    background-color: #0077ff !important;
+    color: white;
+  }
+
+  .bg-red {
+    background-color: red !important;
+    color: white;
+  }
+
+  .bg-gray {
+    background-color: gray !important;
+    color: white;
+  }
+
+  .bg-green {
+    background-color: #28a600 !important;
+    color: white;
+  }
+  .bg-yellow {
+    background-color: #f6b30b !important;
+    color: white;
+  }
 }
+

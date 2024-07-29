@@ -1,7 +1,7 @@
 .calendar-page {
   margin-left: 250px;
   padding: 20px;
-
+  max-width: 1500px;
   h2 {
     margin-bottom: 10px;
     margin-top: 20px;
@@ -19,7 +19,7 @@
   }
 
   .calendar-table {
-    width: 1400px;
+    width: 80%;
     border-collapse: collapse;
     margin-left: 50px;
     margin-top: 50px;
@@ -32,7 +32,7 @@
 
     td {
       width: calc(100% / 7);
-      height: 110px; // Adjust the height as needed
+      height: 90px; // Adjust the height as needed
       border: 1px solid #ccc;
       vertical-align: top;
       position: relative;
@@ -58,7 +58,8 @@
     }
   }
 }
-.month-year{
+
+.month-year {
   text-align: right;
   font-weight: bold;
   font-size: 30px;

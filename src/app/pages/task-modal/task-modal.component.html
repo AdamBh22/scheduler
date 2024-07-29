@@ -1,5 +1,5 @@
-<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+<div class="modal fade task-modal" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="taskModalLabel">{{ task?.name }}</h5>
@@ -9,10 +9,16 @@
         <div class="row">
           <div class="col-md-8">
             <div *ngIf="task">
-              <h6 class="mb-3">Status: <span class="badge bg-success">{{ task.status }}</span></h6>
+              <h6 class="mb-3">
+                <strong>Status: </strong>
+                <span class="badge" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
+              </h6>
               <p><strong>Deadline:</strong> {{ task.ending | date }}</p>
               <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
-              <p><strong>Priority:</strong> <span class="badge bg-danger">{{ task.priority }}</span></p>
+              <p>
+                <strong>Priority:</strong>
+                <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
+              </p>
               <p>
                 <strong>Dependency:</strong>
                 <span *ngFor="let dependency of task.dependencies" class="badge bg-warning text-dark">
@@ -23,8 +29,8 @@
               <p><strong>Description:</strong> {{ task.description }}</p>
               <p><strong>Sub-Tasks:</strong></p>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Write the Task Name" aria-label="Write the Task Name">
-                <button class="btn btn-primary" type="button">Add a New Task</button>
+                <input type="text" class="form-control" placeholder="Write the Task Name" [(ngModel)]="newSubtaskName" aria-label="Write the Task Name">
+                <button class="btn btn-primary" (click)="addSubtask()">Add a New Task</button>
               </div>
               <p><strong>Comments:</strong></p>
               <ul>
@@ -33,15 +39,19 @@
                 </li>
               </ul>
               <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Write a comment ...." aria-label="Write a comment ....">
-                <button class="btn btn-primary" type="button">Send</button>
+                <input type="text" class="form-control" placeholder="Write a comment ...." [(ngModel)]="newCommentText" aria-label="Write a comment ....">
+                <button class="btn btn-primary" (click)="addComment()">Send</button>
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-1 separator">
+            <!-- This column will serve as the separator -->
+          </div>
+          <div class="col-md-3 activities">
             <p><strong>Activities:</strong></p>
             <ul>
               <li *ngFor="let activity of task?.activities">
+                <i class="fa-solid fa-star-of-life"></i>
                 {{ activity?.user?.fullName }} {{ activity.name }} {{ activity.id | date: 'dd/MM/yyyy' }}
               </li>
             </ul>
@@ -52,3 +62,4 @@
     </div>
   </div>
 </div>
+

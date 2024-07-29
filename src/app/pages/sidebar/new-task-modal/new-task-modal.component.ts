@@ -24,7 +24,6 @@ export class NewTaskModalComponent {
   dependencies: Dependency[]=[];
   comments: Comment[]=[];
   activities: Activity[]=[];
-
   addNewTask() {
     if (this.newTaskName.trim()) {
       const newTask = new Task(
@@ -38,7 +37,8 @@ export class NewTaskModalComponent {
         this.dependencies=[],
         this.description,
         this.comments,
-        this.activities
+        this.activities,
+        this.projectId
       );
       this.taskAdded.emit({ projectId: this.projectId, task: newTask });
       this.newTaskName = '';

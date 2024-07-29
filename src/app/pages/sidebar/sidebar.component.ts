@@ -21,11 +21,11 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   showProjects: boolean = false;
   projects: Project[] = [
     new Project(1, 'Project 1', [
-      new Task(1, 'Task 1', 'To Do', 'High', 'User1', new Date('2024-07-19'), new Date('2024-07-24'), [], '', [], []),
-      new Task(2, 'Task 2', 'In Progress', 'Medium', 'User2', new Date('2024-07-20'), new Date('2024-07-27'), [], '', [], [])
+      new Task(1, 'Task 1', 'To Do', 'High', 'User1', new Date('2024-07-19'), new Date('2024-07-24'), [], '', [], [],1),
+      new Task(2, 'Task 2', 'In Progress', 'Medium', 'User2', new Date('2024-07-20'), new Date('2024-07-27'), [], '', [], [],1)
     ]),
     new Project(2, 'Project 2', [
-      new Task(3, 'Task 3', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [])
+      new Task(3, 'Task 3', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [],2)
     ])
   ];
 

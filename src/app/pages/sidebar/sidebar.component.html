@@ -29,7 +29,7 @@
                 <ul class="tasks-list">
                   <li class="tasks" *ngFor="let task of project.tasks">
                     <a href="#" class="tasks-link" (click)="navigateToTask($event, task.id)">
-                      <i class="fa-solid fa-file-contract"></i>
+                      <i class="fa-solid fa-star-of-life"></i>
                       <span class="task-name">{{ task.name }}</span>
                     </a>
                   </li>
@@ -54,6 +54,12 @@
     </div>
   </div>
 </div>
+
+<app-new-project-modal (projectAdded)="onProjectAdded($event)"></app-new-project-modal>
+<app-options-modal #optionsModal (deleteProject)="deleteProject($event)" (addNewTask)="onAddNewTask($event)"></app-options-modal>
+<app-new-task-modal #newTaskModal (taskAdded)="addNewTask($event)"></app-new-task-modal>
+<app-task-modal #taskModal></app-task-modal>
+
 
 <app-new-project-modal (projectAdded)="onProjectAdded($event)"></app-new-project-modal>
 <app-options-modal #optionsModal (deleteProject)="deleteProject($event)" (addNewTask)="onAddNewTask($event)"></app-options-modal>

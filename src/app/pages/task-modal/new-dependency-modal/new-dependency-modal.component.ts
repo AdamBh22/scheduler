@@ -20,6 +20,9 @@ export class NewDependencyModalComponent {
     const modalElement = document.getElementById('newDependencyModal');
     if (modalElement) {
       const modal = new Modal(modalElement);
+      if(modal){
+        modal.hide();
+      }
       modal.show();
     }
   }

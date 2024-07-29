@@ -14,6 +14,7 @@ export class Task {
     public dependencies: Dependency[],
     public description: string,
     public comments: Comment[],
-    public activities: Activity[]
+    public activities: Activity[],
+    public projectId: number
   ) {}
 }
