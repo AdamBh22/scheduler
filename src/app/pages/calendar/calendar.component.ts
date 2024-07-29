@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Task } from '../../models/task.model'
+import {TaskService} from "../../services/task.service";
 
 @Component({
   selector: 'app-calendar',
@@ -11,23 +13,29 @@ export class CalendarComponent implements OnInit {
   year!: number;
   today: Date = new Date();
 
-  tasks = [
-    { date: new Date(2023, 6, 2), task: 'Task 1' },
-    { date: new Date(2023, 6, 3), task: 'Task 2' },
-    { date: new Date(2023, 6, 4), task: 'Task 3' }
-  ];
+  tasks: Task[] = [];
+
+  constructor(private taskService: TaskService) {}
 
   ngOnInit() {
-    const now = new Date();
-    this.generateCalendar(now.getFullYear(), now.getMonth());
+    this.loadTasks();
+  }
+
+  loadTasks() {
+    this.taskService.getUserTasks().subscribe(tasks => {
+      this.tasks = tasks;
+      console.log('Tasks loaded:', this.tasks); // Add this line
+      const now = new Date();
+      this.generateCalendar(now.getFullYear(), now.getMonth());
+    });
   }
 
   generateCalendar(year: number, month: number) {
     this.year = year;
     this.monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
 
-    const firstDay = new Date(year, month).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate(); // Correct days in month calculation
     let dayCounter = 1;
 
     this.calendar = [];
@@ -38,9 +46,10 @@ export class CalendarComponent implements OnInit {
         if ((i === 0 && j < firstDay) || dayCounter > daysInMonth) {
           week.push({ date: '', tasks: [] });
         } else {
+          const currentDate = new Date(year, month, dayCounter);
           const tasksForDay = this.tasks
-            .filter(task => task.date.getDate() === dayCounter && task.date.getMonth() === month)
-            .map(task => task.task);
+            .filter(task => this.isDateInRange(new Date(task.starting), new Date(task.ending), currentDate))
+            .map(task => task.name);
           const isToday = this.isToday(dayCounter, month, year);
           week.push({ date: dayCounter, tasks: tasksForDay, isToday });
           dayCounter++;
@@ -48,6 +57,11 @@ export class CalendarComponent implements OnInit {
       }
       this.calendar.push(week);
     }
+  }
+
+  isDateInRange(startDate: Date, endDate: Date, date: Date): boolean {
+    console.log(`Checking range: ${startDate} - ${endDate}, Date: ${date}`); // Add this line
+    return date >= startDate && date <= endDate;
   }
 
   isToday(day: number, month: number, year: number): boolean {

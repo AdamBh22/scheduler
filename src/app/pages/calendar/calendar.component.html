@@ -1,4 +1,4 @@
-<div class="calendar-page">
+<div class="container calendar-page">
   <h2>Calendar</h2>
   <hr class="separator" />
   <div class="month-year">{{ monthName }} {{ year }}</div>
@@ -18,10 +18,10 @@
       <tbody>
       <tr *ngFor="let week of calendar">
         <td *ngFor="let day of week" [class.today]="day.isToday">
+          <div class="date">{{ day.date }}</div>
           <div class="tasks">
             <div *ngFor="let task of day.tasks">{{ task }}</div>
           </div>
-          <div class="date">{{ day.date }}</div>
         </td>
       </tr>
       </tbody>
