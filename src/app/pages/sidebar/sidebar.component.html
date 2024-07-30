@@ -10,7 +10,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" (click)="toggleProjects()" aria-current="page">
+            <a class="nav-link" (click)="toggleProjects()" aria-current="page">
               <i class="fa-regular fa-folder"></i>
               <span class="subtitle">Projects</span>
               <i class="fa-solid fa-plus ms-2" (click)="openAddNewProjectModal($event)"></i>
@@ -60,8 +60,3 @@
 <app-new-task-modal #newTaskModal (taskAdded)="addNewTask($event)"></app-new-task-modal>
 <app-task-modal #taskModal></app-task-modal>
 
-
-<app-new-project-modal (projectAdded)="onProjectAdded($event)"></app-new-project-modal>
-<app-options-modal #optionsModal (deleteProject)="deleteProject($event)" (addNewTask)="onAddNewTask($event)"></app-options-modal>
-<app-new-task-modal #newTaskModal (taskAdded)="addNewTask($event)"></app-new-task-modal>
-<app-task-modal #taskModal></app-task-modal>

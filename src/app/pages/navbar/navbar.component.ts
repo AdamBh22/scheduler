@@ -17,7 +17,8 @@ export class NavbarComponent  {
     this.user = this.userService.getUser();
     this.username = this.user.fullName.charAt(0);
   }
-  openProfileModal() {
+  openProfileModal(event: Event): void {
+    event.preventDefault();
     const modalElement = document.getElementById('userProfileModal');
     if (modalElement) {
       const modal = new Modal(modalElement);
