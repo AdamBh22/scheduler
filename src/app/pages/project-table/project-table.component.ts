@@ -1,38 +1,78 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ProjectService } from '../../services/project.service';
+import { Project } from '../../models/project.model';
+import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-project-table',
   templateUrl: './project-table.component.html',
   styleUrls: ['./project-table.component.scss']
 })
-export class ProjectTableComponent {
-  project = {
-    name: 'Project2'
-  };
-  tasks = [
-    { name: 'Task 1', assignedTo: 'User1', status: 'In Progress', deadline: new Date('2024-07-15'), priority: 'High' },
-    { name: 'Task 2', assignedTo: 'User2', status: 'Late', deadline: new Date('2024-07-20'), priority: 'Middle' },
-    { name: 'Task 3', assignedTo: 'User3', status: 'Next', deadline: new Date('2024-07-21'), priority: 'Low' }
-  ];
-  constructor() { }
+export class ProjectTableComponent implements OnInit, OnDestroy {
+  project!: Project;
+  tasks: Task[] = [];
+  private routeSub: Subscription = new Subscription();
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private projectService: ProjectService
+  ) {}
+
+  ngOnInit(): void {
+    this.routeSub.add(
+      this.route.paramMap.subscribe(params => {
+        const projectId = +params.get('id')!;
+        this.loadProject(projectId);
+      })
+    );
+
+    // Subscribe to task updates
+    this.projectService.taskAdded.subscribe(() => {
+      this.loadProject(this.project.id);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub.unsubscribe();
+  }
+
+  loadProject(projectId: number): void {
+    this.projectService.getProjectById(projectId).subscribe(project => {
+      if (project) {
+        this.project = project;
+        this.tasks = project.tasks;
+      } else {
+        console.error('Project not found');
+      }
+    });
+  }
+
+  navigateToGantt(): void {
+    this.router.navigate([`/projectGantt/${this.project.id}`]);
+  }
+
   getStatusClass(status: string): string {
     switch (status) {
+      case 'To Do':
+        return 'status-to-do';
       case 'In Progress':
         return 'status-in-progress';
-      case 'Late':
-        return 'status-late';
-      case 'Next':
-        return 'status-next';
+      case 'Complete':
+        return 'status-complete';
       default:
         return '';
     }
   }
+
   getPriorityClass(priority: string): string {
     switch (priority) {
       case 'High':
         return 'priority-high';
-      case 'Middle':
-        return 'priority-middle';
+      case 'Medium':
+        return 'priority-medium';
       case 'Low':
         return 'priority-low';
       default:
@@ -43,14 +83,13 @@ export class ProjectTableComponent {
   getPriorityIconClass(priority: string): string {
     switch (priority) {
       case 'High':
-        return 'fa-flag-high';
-      case 'Middle':
-        return 'fa-flag-middle';
+        return 'fa-exclamation-circle';
+      case 'Medium':
+        return 'fa-exclamation-triangle';
       case 'Low':
-        return 'fa-flag-low';
+        return 'fa-exclamation';
       default:
         return '';
     }
   }
-  ngOnInit(): void { }
 }

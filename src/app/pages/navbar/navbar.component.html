@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img src="assets/images/besoftilys.png" alt="Logo" class="logo">
+      <img Src="assets/images/besoftilys.png" alt="Logo" class="logo">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -19,7 +19,7 @@
             {{ username[0].toUpperCase() }}
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#" (click)="openProfileModal()">Profile</a></li>
+            <li><a class="dropdown-item" href="#" (click)="openProfileModal($event)">Profile</a></li>
             <li><a class="dropdown-item" href="#" (click)="logout()">Log out</a></li>
           </ul>
         </li>

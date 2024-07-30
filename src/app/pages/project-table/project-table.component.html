@@ -1,3 +1,4 @@
+<!-- src/app/pages/project-table/project-table.component.html -->
 <div class="projects-page">
   <div class="projects-container">
     <h2>Projects / {{ project.name }} / Table</h2>
@@ -5,7 +6,7 @@
 
     <div class="tabs">
       <a class="tab active">Table</a>
-      <a class="tab">Gantt</a>
+      <a class="tab" (click)="navigateToGantt()">Gantt</a>
     </div>
     <table class="table">
       <thead>
@@ -24,7 +25,7 @@
         <td class="tab-elem table-content"> {{ task.name }}</td>
         <td class="tab-elem table-content"> {{ task.assignedTo }}</td>
         <td class="tab-elem table-content" [ngClass]="getStatusClass(task.status)"> {{ task.status }}</td>
-        <td class="tab-elem table-content"> {{ task.deadline | date: 'dd/MM/yyyy' }}</td>
+        <td class="tab-elem table-content"> {{ task.ending | date: 'dd/MM/yyyy' }}</td>
         <td class="tab-elem table-content" [ngClass]="getPriorityClass(task.priority)">
           <i class="fa" [ngClass]="getPriorityIconClass(task.priority)"></i> {{ task.priority }}
         </td>

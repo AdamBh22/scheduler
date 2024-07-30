@@ -47,6 +47,14 @@ const routes: Routes = [
   {
     path:'taskModal',
     component: TaskModalComponent
+  },
+  {
+    path:'projectTable/:id',
+    component: ProjectTableComponent
+  },
+  {
+    path:'projectGantt/:id',
+    component: ProjectGanttComponent
   }
 ];
 

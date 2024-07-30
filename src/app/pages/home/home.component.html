@@ -4,23 +4,22 @@
       <h2 class="card-header"><i class="fa-solid fa-newspaper"></i> Recents</h2>
       <div class="card-body">
         <ul>
-          <li *ngFor="let recent of recents" class="card-title">
+          <li *ngFor="let recent of recents" class="card-title" (click)="navigateToRecent(recent)">
             <i class="fa-solid fa-circle-info"></i>
-            <span class="card-item">{{recent.name}}</span>
+            <span class="card-item">{{ recent.name }}</span>
           </li>
         </ul>
       </div>
     </div>
     <div class="card border-info mb-3">
       <h2 class="card-header"><i class="fas fa-calendar"></i> Agenda</h2>
-      <h2 class="date">{{today | date: 'd MMMM yyyy'}}</h2>
+      <h2 class="date">{{ today | date: 'd MMMM yyyy' }}</h2>
       <table class="agenda-table">
-        <tr *ngFor="let agendaItem of agenda">
+        <tr *ngFor="let agendaItem of agenda" (click)="navigateToTask(agendaItem.id)">
           <td class="card-member">
             <i class="fa-solid fa-calendar-days"></i>
-            <span class="card-item">{{agendaItem.name}}</span>
+            <span class="card-item">{{ agendaItem.name }}</span>
           </td>
-          <td class="card-project">{{agendaItem.project}}</td>
         </tr>
       </table>
     </div>
@@ -29,57 +28,57 @@
       <div class="work-list">
         <div>
           <h3 (click)="toggleWorkList('today')">
-            <i class="fa-solid fa-check"></i> Today ({{workItems.today.length}})
+            <i class="fa-solid fa-check"></i> Today ({{ workItems.today.length }})
           </h3>
           <div *ngIf="isWorkListVisible.today" class="work-items">
             <div *ngFor="let item of workItems.today">
               <i class="fa-regular fa-star-half"></i>
-              <span> {{item.name}}</span>
+              <span> {{ item.name }}</span>
             </div>
           </div>
         </div>
         <div>
           <h3 (click)="toggleWorkList('next')">
-            <i class="fa-solid fa-square-caret-right"></i> Next ({{workItems.next.length}})
+            <i class="fa-solid fa-square-caret-right"></i> Next ({{ workItems.next.length }})
           </h3>
           <div *ngIf="isWorkListVisible.next" class="work-items">
             <div *ngFor="let item of workItems.next">
               <i class="fa-regular fa-star-half"></i>
-              <span> {{item.name}}</span>
+              <span> {{ item.name }}</span>
             </div>
           </div>
         </div>
         <div>
           <h3 (click)="toggleWorkList('late')">
-            <i class="fa-solid fa-circle-exclamation"></i> Late ({{workItems.late.length}})
+            <i class="fa-solid fa-circle-exclamation"></i> Late ({{ workItems.late.length }})
           </h3>
           <div *ngIf="isWorkListVisible.late" class="work-items">
             <div *ngFor="let item of workItems.late">
               <i class="fa-regular fa-star-half"></i>
-              <span> {{item.name}}</span>
+              <span> {{ item.name }}</span>
             </div>
           </div>
         </div>
         <div>
           <h3 (click)="toggleWorkList('unplanned')">
-            <i class="fa-regular fa-pen-to-square"></i> Unplanned ({{workItems.unplanned.length}})
+            <i class="fa-regular fa-pen-to-square"></i> Unplanned ({{ workItems.unplanned.length }})
           </h3>
           <div *ngIf="isWorkListVisible.unplanned" class="work-items">
             <div *ngFor="let item of workItems.unplanned">
               <i class="fa-regular fa-star-half"></i>
-              <span> {{item.name}}</span>
+              <span> {{ item.name }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card border-info mb-3" >
+    <div class="card border-info mb-3">
       <h2 class="card-header"><i class="fa-solid fa-square-check"></i>Attributed to Me</h2>
       <ul class="att-me-container">
-        <li *ngFor="let attributedItem of attributedItems">
+        <li *ngFor="let attributedItem of attributedItems" (click)="navigateToTask(attributedItem.id)">
           <i class="fa-solid fa-circle-check"></i>
-          <span class="card-item">{{attributedItem.name}}</span>
+          <span class="card-item">{{ attributedItem.name }}</span>
         </li>
       </ul>
     </div>

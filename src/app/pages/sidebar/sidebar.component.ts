@@ -1,11 +1,13 @@
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Project } from '../../models/project.model';
-import { Task } from '../../models/task.model';
-import { Modal } from 'bootstrap';
+import { ProjectService } from '../../services/project.service';
+import { Router } from '@angular/router';
 import { OptionsModalComponent } from './options-modal/options-modal.component';
 import { NewTaskModalComponent } from './new-task-modal/new-task-modal.component';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
-import { Router } from "@angular/router";
+import { Modal } from 'bootstrap';
+import { Task } from '../../models/task.model';
+import { RecentsService } from '../../services/recents.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,47 +21,50 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   currentView: string = 'home';
   showProjects: boolean = false;
-  projects: Project[] = [
-    new Project(1, 'Project 1', [
-      new Task(1, 'Task 1', 'To Do', 'High', 'User1', new Date('2024-07-19'), new Date('2024-07-24'), [], '', [], [],1),
-      new Task(2, 'Task 2', 'In Progress', 'Medium', 'User2', new Date('2024-07-20'), new Date('2024-07-27'), [], '', [], [],1)
-    ]),
-    new Project(2, 'Project 2', [
-      new Task(3, 'Task 3', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [],2)
-    ])
-  ];
+  projects: Project[] = [];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private projectService: ProjectService,
+    private recentsService: RecentsService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.projectService.getAllProjects().subscribe(projects => {
+      this.projects = projects;
+    });
+  }
 
   ngAfterViewInit(): void {
-    console.log('TaskModalComponent:', this.taskModal); // Debug log to check initialization
+    console.log('TaskModalComponent:', this.taskModal);
   }
 
-  navigateTo(view: string) {
+  navigateTo(view: string): void {
     this.router.navigate([`/${view}`]);
     this.currentView = view;
+    this.logRecentActivity(view.charAt(0).toUpperCase() + view.slice(1), view as 'task' | 'project' | 'dashboard' | 'calendar');
   }
 
-  toggleProjects() {
+  toggleProjects(): void {
     this.showProjects = !this.showProjects;
   }
 
-  navigateToProject(event: Event, projectId: number) {
+  navigateToProject(event: Event, projectId: number): void {
     event.preventDefault();
-    this.router.navigate([`/project-table/${projectId}`]);
+    this.router.navigate([`/projectTable/${projectId}`]);
+    this.logRecentActivity(`Project ${projectId}`, 'project');
   }
 
-  navigateToTask(event: Event, taskId: number) {
+  navigateToTask(event: Event, taskId: number): void {
     event.preventDefault();
     const project = this.projects.find(p => p.tasks.some(t => t.id === taskId));
     if (project) {
       const task = project.tasks.find(t => t.id === taskId);
       if (task) {
         this.taskModal.task = task;
-        this.taskModal.tasks = project.tasks; // Pass the list of all tasks in the project
+        this.taskModal.tasks = project.tasks;
         this.taskModal.openModal();
+        this.logRecentActivity(`Task ${taskId}`, 'task');
       } else {
         console.error('Task not found');
       }
@@ -68,8 +73,8 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openAddNewProjectModal(event: Event) {
-    event.stopPropagation();
+  openAddNewProjectModal(event: Event): void {
+    event.preventDefault();
     const modalElement = document.getElementById('newProjectModal');
     if (modalElement) {
       const modal = new Modal(modalElement);
@@ -78,31 +83,34 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   openOptionsModal(event: Event, projectId: number): void {
-    event.stopPropagation();
+    event.preventDefault();
     this.optionsModal.openModal(projectId);
   }
 
-  onProjectAdded(project: Project) {
+  onProjectAdded(project: Project): void {
     this.projects.push(project);
   }
 
-  deleteProject(projectId: number) {
+  deleteProject(projectId: number): void {
     this.projects = this.projects.filter(project => project.id !== projectId);
   }
 
-  addNewTask(event: { projectId: number, task: Task }) {
-    const project = this.projects.find(p => p.id === event.projectId);
-    if (project) {
-      project.tasks.push(event.task);
-    }
+  addNewTask(event: { projectId: number, task: Task }): void {
+    this.projectService.addTaskToProject(event.projectId, event.task);
   }
 
-  onAddNewTask(projectId: number) {
+  onAddNewTask(projectId: number): void {
     this.newTaskModal.projectId = projectId; // Set the projectId for the NewTaskModal
     const modalElement = document.getElementById('newTaskModal');
     if (modalElement) {
       const modal = new Modal(modalElement);
       modal.show();
     }
+  }
+
+  private logRecentActivity(name: string, type: 'task' | 'project' | 'dashboard' | 'calendar'): void {
+    this.recentsService.addRecent(name, type).subscribe(() => {
+      console.log('Recent activity logged:', name, type);
+    });
   }
 }
