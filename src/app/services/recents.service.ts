@@ -1,4 +1,3 @@
-// services/recents.service.ts
 import { Injectable } from '@angular/core';
 import { Recent } from '../models/recents.model';
 import { Observable, of } from 'rxjs';

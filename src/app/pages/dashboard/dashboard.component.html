@@ -1,15 +1,17 @@
 <div class="dashboard-container">
+  <h2 class="header">Dashboard</h2>
+  <hr class="separator"/>
   <div class="projects-overview">
-    <div class="card text-dark bg-light mb-3" *ngFor="let project of stats">
+    <div class="card border-info mb-3" *ngFor="let project of stats" (click)="navigateToProject(project.id)">
       <div class="project-header">
-        <span class="header">{{ project.name }}</span>
-        <span class="header">{{ project.progress }}%</span>
+        <span class="card-header">{{ project.name }}</span>
+        <span class="card-header">{{ project.progress }}%</span>
       </div>
-      <div  class="card-body">
+      <div class="card-body">
         <p class="card-title">Deadline: {{ project.deadline | date: 'dd/MM/yyyy' }}</p>
         <p class="card-title">Tasks: {{ project.tasksCount }}</p>
         <p class="card-title">Completed: {{ project.completed }}</p>
-        <p class="card-title">In Progress: {{ project.Inprogress }}</p>
+        <p class="card-title">In Progress: {{ project.inProgress }}</p>
         <p class="card-title">Late: {{ project.lateTasks }}</p>
         <p class="card-title">Unplanned: {{ project.unplannedTasks }}</p>
         <p class="card-title">Next: {{ project.nextTasks }}</p>

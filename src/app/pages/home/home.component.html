@@ -1,4 +1,6 @@
 <div class="home-container">
+  <h2 class="header">Home </h2>
+  <hr class="separator" />
   <div class="content">
     <div class="card border-info mb-3">
       <h2 class="card-header"><i class="fa-solid fa-newspaper"></i> Recents</h2>
@@ -31,7 +33,7 @@
             <i class="fa-solid fa-check"></i> Today ({{ workItems.today.length }})
           </h3>
           <div *ngIf="isWorkListVisible.today" class="work-items">
-            <div *ngFor="let item of workItems.today">
+            <div *ngFor="let item of workItems.today" (click)="navigateToTask(item.id)">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -42,7 +44,7 @@
             <i class="fa-solid fa-square-caret-right"></i> Next ({{ workItems.next.length }})
           </h3>
           <div *ngIf="isWorkListVisible.next" class="work-items">
-            <div *ngFor="let item of workItems.next">
+            <div *ngFor="let item of workItems.next" (click)="navigateToTask(item.id)">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -53,7 +55,7 @@
             <i class="fa-solid fa-circle-exclamation"></i> Late ({{ workItems.late.length }})
           </h3>
           <div *ngIf="isWorkListVisible.late" class="work-items">
-            <div *ngFor="let item of workItems.late">
+            <div *ngFor="let item of workItems.late" (click)="navigateToTask(item.id)">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -64,7 +66,7 @@
             <i class="fa-regular fa-pen-to-square"></i> Unplanned ({{ workItems.unplanned.length }})
           </h3>
           <div *ngIf="isWorkListVisible.unplanned" class="work-items">
-            <div *ngFor="let item of workItems.unplanned">
+            <div *ngFor="let item of workItems.unplanned" (click)="navigateToTask(item.id)">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -72,11 +74,10 @@
         </div>
       </div>
     </div>
-
     <div class="card border-info mb-3">
-      <h2 class="card-header"><i class="fa-solid fa-square-check"></i>Attributed to Me</h2>
+      <h2 class="card-header"><i class="fa-solid fa-square-check"></i> Attributed to Me</h2>
       <ul class="att-me-container">
-        <li *ngFor="let attributedItem of attributedItems" (click)="navigateToTask(attributedItem.id)">
+        <li *ngFor="let attributedItem of attributedItems" (click)="openTaskModal(attributedItem)">
           <i class="fa-solid fa-circle-check"></i>
           <span class="card-item">{{ attributedItem.name }}</span>
         </li>
