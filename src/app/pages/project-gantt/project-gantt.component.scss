@@ -1,0 +1,65 @@
+.gantt-chart {
+  position: relative;
+  padding: 20px;
+  margin-left: 250px; /* Adjust margin to fit within the sidebar */
+
+  .gantt-header {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+  }
+
+  .gantt-day {
+    flex: 0 0 3%; /* Adjust the width as needed */
+    text-align: center;
+    border-right: 1px solid #ddd;
+    white-space: nowrap;
+  }
+
+  .gantt-tasks {
+    position: relative;
+  }
+
+  .gantt-task {
+    position: absolute;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap;
+    padding: 5px;
+    color: white;
+
+    &.status-todo {
+      background-color: #f39c12;
+    }
+
+    &.status-complete {
+      background-color: #27ae60;
+    }
+
+    &.status-in-progress {
+      background-color: #2980b9;
+    }
+
+    &.status-unplanned {
+      background-color: #7f8c8d;
+    }
+
+    &.status-next {
+      background-color: #8e44ad;
+    }
+
+    &.status-late {
+      background-color: #e74c3c;
+    }
+  }
+
+  .dependency-line {
+    position: absolute;
+    height: 2px;
+    background-color: yellow; // or red depending on the type
+  }
+}

@@ -14,6 +14,18 @@ export class ProjectService {
     ]),
     new Project(2, 'Project 2', [
       new Task(3, 'Task 3', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 2)
+    ]),
+    new Project(3, 'Project 3', [
+      new Task(4, 'Task 4', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
+      new Task(5, 'Task 5', 'In Progress', 'Middle', 'John Doe', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
+    ]),
+    new Project(4, 'Project 4', [
+      new Task(4, 'Task 4', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
+      new Task(5, 'Task 5', 'In Progress', 'Middle', 'John Doe', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
+    ]),
+    new Project(5, 'Project 5', [
+      new Task(4, 'Task 4', 'Complete', 'Low', 'User3', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
+      new Task(5, 'Task 5', 'In Progress', 'Middle', 'John Doe', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
     ])
   ];
   taskAdded: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);

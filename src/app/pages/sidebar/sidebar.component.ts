@@ -40,9 +40,14 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   navigateTo(view: string): void {
-    this.router.navigate([`/${view}`]);
+    if (view !== '/home') {
+      this.router.navigate([`/${view}`]).then(() => {
+        this.logRecentActivity( view.slice(1), view.slice(1) as 'task' | 'project' | 'dashboard' | 'calendar');
+      });
+    } else {
+      this.router.navigate([`/${view}`]);
+    }
     this.currentView = view;
-    this.logRecentActivity(view.charAt(0).toUpperCase() + view.slice(1), view as 'task' | 'project' | 'dashboard' | 'calendar');
   }
 
   toggleProjects(): void {
@@ -51,8 +56,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
 
   navigateToProject(event: Event, projectId: number): void {
     event.preventDefault();
-    this.router.navigate([`/projectTable/${projectId}`]);
-    this.logRecentActivity(`Project ${projectId}`, 'project');
+    this.router.navigate([`/projectTable/${projectId}`]).then(() => {
+      this.logRecentActivity(`Project ${projectId}`, 'project');
+    });
   }
 
   navigateToTask(event: Event, taskId: number): void {
@@ -64,7 +70,6 @@ export class SidebarComponent implements OnInit, AfterViewInit {
         this.taskModal.task = task;
         this.taskModal.tasks = project.tasks;
         this.taskModal.openModal();
-        this.logRecentActivity(`Task ${taskId}`, 'task');
       } else {
         console.error('Task not found');
       }

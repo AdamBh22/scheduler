@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { RecentsService } from '../../services/recents.service';
 import { Task } from '../../models/task.model';
 import { Recent } from '../../models/recents.model';
 import { Router } from '@angular/router';
+import { TaskModalComponent } from '../task-modal/task-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -11,6 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('taskModal') taskModal!: TaskModalComponent;
+
   today = new Date();
   recents: Recent[] = [];
   agenda: Task[] = [];
@@ -72,7 +75,7 @@ export class HomeComponent implements OnInit {
 
   loadRecents(): void {
     this.recentsService.getRecents().subscribe(recents => {
-      this.recents = recents;
+      this.recents = recents.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     });
   }
 
@@ -80,28 +83,50 @@ export class HomeComponent implements OnInit {
     this.isWorkListVisible[list] = !this.isWorkListVisible[list];
   }
 
+  openTaskModal(task: Task): void {
+    this.taskModal.task = task;
+    this.taskModal.tasks = [task];  // You might want to set this to the correct task list
+    this.taskModal.openModal();
+  }
+
   navigateToTask(taskId: number): void {
-    this.router.navigate([`/task/${taskId}`]);
+    this.taskService.getTaskById(taskId).subscribe((task: Task) => {
+      this.openTaskModal(task);
+    });
   }
 
   navigateToProject(projectId: number): void {
     this.router.navigate([`/projectTable/${projectId}`]);
+    this.logRecentActivity(`Project ${projectId}`, 'project');
   }
 
   navigateToRecent(recent: Recent): void {
+    console.log(recent.type);
     switch (recent.type) {
       case 'task':
-        this.navigateToTask(parseInt(recent.name.split(' ')[1]));
+        const taskId = parseInt(recent.name.split(' ')[1], 10);
+        this.navigateToTask(taskId);
         break;
       case 'project':
-        this.navigateToProject(parseInt(recent.name.split(' ')[1]));
+        this.navigateToProject(parseInt(recent.name.split(' ')[1], 10));
         break;
       case 'dashboard':
-        this.router.navigate(['/dashboard']);
+        this.navigateTo('dashboard');
+        this.logRecentActivity(`dashboard`, 'dashboard');
         break;
       case 'calendar':
-        this.router.navigate(['/calendar']);
+        this.navigateTo('calendar');
+        this.logRecentActivity(`calendar`, 'calendar');
         break;
     }
+  }
+  navigateTo(view: string): void {
+    this.router.navigate([`/${view}`]);
+    console.log("worked function!");
+  }
+  private logRecentActivity(name: string, type: 'task' | 'project' | 'dashboard' | 'calendar'): void {
+    this.recentsService.addRecent(name, type).subscribe(() => {
+      this.loadRecents();
+    });
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class TaskService {
     new Task(3, 'Task 3', 'Next', 'Low', 'User1', new Date(2024, 6, 5), new Date(2024, 8, 10), [], '', [], [], 1)
   ];
 
-  constructor() { }
+  private apiUrl = 'http://your-api-url.com';
+
+  constructor(private http: HttpClient) { }
 
   getUserTasks(): Observable<Task[]> {
     return of(this.tasks);
@@ -31,5 +34,8 @@ export class TaskService {
       return startDate <= today && today <= endDate;
     });
     return of(tasksForToday);
+  }
+  getTaskById(taskId: number): Observable<Task> {
+    return this.http.get<Task>(`${this.apiUrl}/tasks/${taskId}`);
   }
 }
