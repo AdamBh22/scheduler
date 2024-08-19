@@ -8,13 +8,12 @@ export class Task {
     public name: string,
     public status: string,
     public priority: string,
-    public assignedTo: string,
     public starting: Date,
     public ending: Date,
     public dependencies: Dependency[],
     public description: string,
     public comments: Comment[],
     public activities: Activity[],
-    public projectId: number
+    public appUserId: number
   ) {}
 }

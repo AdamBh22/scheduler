@@ -1,65 +1,111 @@
-.gantt-chart {
+@import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700");
+
+body, html {
+  font-family: "Roboto", sans-serif;
+  background-color: #cddade;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+  color: #202125;
+  margin-bottom: 40px;
+  h2 {
+    font-weight: 600;
+  }
+}
+
+.wrapper {
+  max-width: 1400px;
+  min-width: 700px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.gantt {
+  display: grid;
+  border: 0;
+  border-radius: 12px;
   position: relative;
-  padding: 20px;
-  margin-left: 250px; /* Adjust margin to fit within the sidebar */
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0 75px 125px -57px #7e8f94;
 
-  .gantt-header {
-    display: flex;
-    border-bottom: 1px solid #ddd;
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 10;
-  }
+  &__row {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    background-color: #fff;
 
-  .gantt-day {
-    flex: 0 0 3%; /* Adjust the width as needed */
-    text-align: center;
-    border-right: 1px solid #ddd;
-    white-space: nowrap;
-  }
-
-  .gantt-tasks {
-    position: relative;
-  }
-
-  .gantt-task {
-    position: absolute;
-    height: 30px;
-    border-radius: 5px;
-    cursor: pointer;
-    white-space: nowrap;
-    padding: 5px;
-    color: white;
-
-    &.status-todo {
-      background-color: #f39c12;
+    &:nth-child(odd) {
+      background-color: #f5f5f5;
+      .gantt__row-first {
+        background-color: #f5f5f5;
+      }
     }
 
-    &.status-complete {
-      background-color: #27ae60;
+    &--days {
+      color: #fff;
+      background-color: #0a3444 !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      grid-template-columns: 150px repeat(31, 1fr); // Adjust the number 31 according to the days in the month
+      .gantt__row-first {
+        border-top: 0 !important;
+        background-color: #0a3444 !important;
+      }
+      span {
+        text-align: center;
+        font-size: 13px;
+        align-self: center;
+        font-weight: bold;
+        padding: 20px 0;
+      }
     }
 
-    &.status-in-progress {
-      background-color: #2980b9;
+    &-first {
+      background-color: #fff;
+      border-width: 1px 0 0 0;
+      border-color: rgba(0, 0, 0, 0.1);
+      border-style: solid;
+      padding: 15px 0;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
     }
 
-    &.status-unplanned {
-      background-color: #7f8c8d;
-    }
+    &-bars {
+      list-style: none;
+      display: grid;
+      padding: 9px 0;
+      margin: 0;
+      grid-template-columns: repeat(31, 1fr); // Adjust the number 31 according to the days in the month
+      grid-gap: 8px 0;
+      border-top: 1px solid rgba(221, 221, 221, 0.8);
 
-    &.status-next {
-      background-color: #8e44ad;
-    }
+      li {
+        font-weight: 500;
+        text-align: left;
+        font-size: 14px;
+        min-height: 15px;
+        background-color: #55de84;
+        padding: 5px 12px;
+        color: #fff;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        border-radius: 20px;
 
-    &.status-late {
-      background-color: #e74c3c;
+        &.dependency {
+          background-color: #ffbd45; // Different color for dependent tasks
+        }
+        &.dependency::after {
+          content: '→'; // Arrow indicating dependency
+          position: absolute;
+          right: -10px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
     }
-  }
-
-  .dependency-line {
-    position: absolute;
-    height: 2px;
-    background-color: yellow; // or red depending on the type
   }
 }

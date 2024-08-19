@@ -6,7 +6,8 @@ import { NewDependencyModalComponent } from "./new-dependency-modal/new-dependen
 import { UserService } from "../../services/user.service";
 import { Comment } from '../../models/comment.model';
 import { Activity } from "../../models/activity.model";
-import { NewTaskModalComponent } from "../sidebar/new-task-modal/new-task-modal.component";
+import {TaskService} from "../../services/task.service";
+import {User} from "../../models/user.model";
 
 @Component({
   selector: 'app-task-modal',
@@ -21,7 +22,7 @@ export class TaskModalComponent {
   newCommentText: string = '';
   newSubtaskName: string = '';
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService,private taskService: TaskService) {}
 
   openModal() {
     if (this.task) {
@@ -46,8 +47,13 @@ export class TaskModalComponent {
   }
 
   openNewDependencyModal(): void {
-    this.newDependencyModal.tasks = this.tasks;
-    this.newDependencyModal.openModal();
+    if (this.task) {
+      this.newDependencyModal.task = this.task;
+      this.newDependencyModal.tasks = this.tasks;
+      this.newDependencyModal.openModal();
+    } else {
+      console.error('Task is not defined');
+    }
   }
 
   onDependencyCreated(dependency: Dependency) {
@@ -119,5 +125,13 @@ export class TaskModalComponent {
       case 'None': return 'bg-gray';
       default: return '';
     }
+  }
+  getTaskById(id: number): Task | null {
+    const task = this.tasks.find((task) => task.id === id);
+    return task !== undefined ? task : null;
+  }
+  getUserById(userId: number): User | null {
+    const user = this.userService.getUserById(userId);
+    return user || null;
   }
 }

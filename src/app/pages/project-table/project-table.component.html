@@ -1,4 +1,3 @@
-<!-- src/app/pages/project-table/project-table.component.html -->
 <div class="projects-page">
   <div class="projects-container">
     <h2>Projects / {{ project.name }} / Table</h2>
@@ -8,6 +7,15 @@
       <a class="tab active">Table</a>
       <a class="tab" (click)="navigateToGantt()">Gantt</a>
     </div>
+
+    <div class="user-selection">
+      <label for="userSelect">Select User:</label>
+      <select class="form-select" size="1" aria-label="size 1 select example" id="userSelect" [(ngModel)]="selectedUserId">
+        <option *ngFor="let user of users" [value]="user.id">{{ user.fullName }}</option>
+      </select>
+      <button type="button" class="btn btn-info" id="users_btn" (click)="addUserToProject()">Add User</button>
+    </div>
+
     <table class="table">
       <thead>
       <tr>
@@ -23,7 +31,7 @@
       <tr *ngFor="let task of tasks; let i = index">
         <td class="tab-elem table-content"> {{ i + 1 }}</td>
         <td class="tab-elem table-content"> {{ task.name }}</td>
-        <td class="tab-elem table-content"> {{ task.assignedTo }}</td>
+        <td class="tab-elem table-content"> {{ getUserNameById(task.appUserId) }}</td>
         <td class="tab-elem table-content" [ngClass]="getStatusClass(task.status)"> {{ task.status }}</td>
         <td class="tab-elem table-content"> {{ task.ending | date: 'dd/MM/yyyy' }}</td>
         <td class="tab-elem table-content" [ngClass]="getPriorityClass(task.priority)">

@@ -10,58 +10,37 @@ import { Task } from '../../models/task.model';
   styleUrls: ['./project-gantt.component.scss']
 })
 export class ProjectGanttComponent implements OnInit {
-  project: Project | undefined;
-  currentMonth: number = 1;
-  daysInCurrentMonth: Date[] = [];
+  days: string[] = [];
+  project =new Project(1,"",[],[]);
+  tasksByUser: { [userId: number]: Task[] } = {};
 
-  constructor(
-    private route: ActivatedRoute,
-    private projectService: ProjectService
-  ) {}
+  constructor(private projectService: ProjectService) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const projectId = Number(params.get('id'));
-      this.loadProject(projectId);
-    });
-
-    this.currentMonth = new Date().getMonth();
-    this.generateDaysInCurrentMonth();
+    this.generateDays();
+    this.loadProjectData();
   }
 
-  loadProject(id: number): void {
-    this.projectService.getProjectById(id).subscribe(project => {
-      this.project = project;
-    });
-  }
-
-  generateDaysInCurrentMonth(): void {
-    const date = new Date();
-    date.setDate(1);
-    date.setMonth(this.currentMonth);
-
-    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-    for (let i = 0; i < daysInMonth; i++) {
-      this.daysInCurrentMonth.push(new Date(date));
-      date.setDate(date.getDate() + 1);
+  generateDays() {
+    const daysInMonth = 31; // You can modify this according to the month
+    for (let i = 1; i <= daysInMonth; i++) {
+      this.days.push(i.toString());
     }
   }
 
-  calculateTaskLeft(task: Task): string {
-    const taskStartDate = new Date(task.starting).getTime();
-    const firstDate = this.daysInCurrentMonth[0].getTime();
-    const diffDays = (taskStartDate - firstDate) / (1000 * 3600 * 24);
-    return `${(diffDays * 100) / this.daysInCurrentMonth.length}%`;
+  loadProjectData(): void {
+    this.projectService.getProjectById(this.project.id).subscribe((project) => {
+      if (project) {
+        this.project = project;
+        project.users.forEach(user => {
+          this.tasksByUser[user.id] = project.tasks.filter(task => task.appUserId === user.id);
+        });
+      }
+    });
   }
 
-  calculateTaskWidth(task: Task): string {
-    const taskStartDate = new Date(task.starting).getTime();
-    const taskEndDate = new Date(task.ending).getTime();
-    const diffDays = (taskEndDate - taskStartDate) / (1000 * 3600 * 24);
-    return `${(diffDays * 100) / this.daysInCurrentMonth.length}%`;
-  }
-
-  openTaskModal(task: Task): void {
-    // Logic to open the task modal
+  getTaskGridPosition(task: Task): string {
+    // Calculate grid position based on task's start and end date
+    return `${task.starting}/${task.ending}`;
   }
 }

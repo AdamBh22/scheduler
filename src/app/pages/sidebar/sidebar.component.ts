@@ -101,12 +101,15 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   addNewTask(event: { projectId: number, task: Task }): void {
+    this.newTaskModal.projectId=event.projectId;
     this.projectService.addTaskToProject(event.projectId, event.task);
   }
 
   onAddNewTask(projectId: number): void {
-    this.newTaskModal.projectId = projectId; // Set the projectId for the NewTaskModal
+    this.newTaskModal.projectId = projectId;
+    console.log("projectid: "+this.newTaskModal.projectId);
     const modalElement = document.getElementById('newTaskModal');
+    this.newTaskModal.projectId = projectId;
     if (modalElement) {
       const modal = new Modal(modalElement);
       modal.show();

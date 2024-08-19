@@ -1,34 +1,26 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <h2 class="mt-3">{{ project?.name }} - Gantt Chart</h2>
-      <hr>
-    </div>
+<div class="wrapper">
+  <div class="header">
+    <h2>Gantt Chart Concept with CSS-Grid</h2>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <div class="gantt-chart">
-        <div class="gantt-header">
-          <div class="gantt-day" *ngFor="let day of daysInCurrentMonth">
-            {{ day | date: 'dd/MM' }}
-          </div>
-        </div>
-        <div class="gantt-tasks">
-          <div *ngFor="let task of project?.tasks" class="gantt-task"
-               [ngStyle]="{'left': calculateTaskLeft(task), 'width': calculateTaskWidth(task)}"
-               [ngClass]="{
-                 'status-todo': task.status === 'todo',
-                 'status-complete': task.status === 'complete',
-                 'status-in-progress': task.status === 'in-progress',
-                 'status-unplanned': task.status === 'unplanned',
-                 'status-next': task.status === 'next',
-                 'status-late': task.status === 'late'
-               }"
-               (click)="openTaskModal(task)">
-            {{ task.name }}
-          </div>
-        </div>
+  <div class="gantt">
+    <!-- Days Row -->
+    <div class="gantt__row gantt__row--days">
+      <div class="gantt__row-first"></div>
+      <span *ngFor="let day of days">{{ day }}</span>
+    </div>
+
+    <!-- Task Rows by User -->
+    <div class="gantt__row" *ngFor="let user of project.users">
+      <div class="gantt__row-first">
+        {{ user.fullName }}
       </div>
+      <ul class="gantt__row-bars">
+        <li *ngFor="let task of tasksByUser[user.id]"
+            [ngStyle]="{'grid-column': getTaskGridPosition(task)}"
+            [class.dependency]="task.dependencies">
+          {{ task.name }}
+        </li>
+      </ul>
     </div>
   </div>
 </div>

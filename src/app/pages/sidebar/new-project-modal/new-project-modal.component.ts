@@ -16,7 +16,8 @@ export class NewProjectModalComponent {
       const newProject: Project = {
         id: Date.now(),
         name: this.newProjectName.trim(),
-        tasks: []
+        tasks: [],
+        users: []
       };
       this.projectAdded.emit(newProject);
       this.newProjectName = '';

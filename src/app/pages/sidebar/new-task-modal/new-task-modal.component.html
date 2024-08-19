@@ -47,8 +47,10 @@
           </div>
 
           <div class="mb-3">
-            <label for="AssignedTo" class="form-label" >Assigned To</label>
-            <input type="text" class="form-control" id="AssignedTo" [(ngModel)]="assignedTo" name="AssignedTo" placeholder="Assigned to ..." required>
+            <label for="AssignedTo" class="form-label">Assigned To</label>
+            <select id="AssignedTo" [(ngModel)]="appUserId" name="AssignedTo" class="form-control" required>
+              <option *ngFor="let user of users" [value]="user.id">{{ user.fullName }}</option>
+            </select>
           </div>
 
           <div class="mb-3">
@@ -60,12 +62,10 @@
             <label for="Ending" class="form-label">Ending</label>
             <input type="date" class="form-control" id="Ending" [(ngModel)]="ending" name="Ending" required>
           </div>
-
           <div class="mb-3">
             <label for="Description" class="form-label" >Description</label>
             <input type="text" class="form-control" id="Description" [(ngModel)]="description" name="Desxription" placeholder="Describe the task ..." required>
           </div>
-
           <button type="submit" class="btn btn-primary w-100">Create Task</button>
         </form>
       </div>

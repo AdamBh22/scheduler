@@ -8,7 +8,7 @@ import {UserService} from "../../../services/user.service";
   styleUrls: ['./user-profile-modal.component.scss']
 })
 export class UserProfileModalComponent {
-  user: User = new User('', '', '', '');
+  user: User = new User(1,'', '', '', '',[],[]);
 
   constructor(private userService: UserService) { }
 

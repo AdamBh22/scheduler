@@ -14,7 +14,7 @@
                 <span class="badge" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
               </h6>
               <p><strong>Deadline:</strong> {{ task.ending | date }}</p>
-              <p><strong>Assigned to:</strong> {{ task.assignedTo }}</p>
+              <p><strong>Assigned to:</strong> {{ getUserById(task.appUserId)?.fullName}}</p>
               <p>
                 <strong>Priority:</strong>
                 <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
@@ -22,7 +22,7 @@
               <p>
                 <strong>Dependency:</strong>
                 <span *ngFor="let dependency of task.dependencies" class="badge bg-warning text-dark">
-                  {{ dependency.status }} with {{ dependency.task.name }}
+                  {{ dependency.status }} with {{ getTaskById(dependency.taskId)}}
                 </span>
               </p>
               <button class="btn btn-primary btn-sm mb-3" (click)="openNewDependencyModal()">Add a new Dependency</button>
