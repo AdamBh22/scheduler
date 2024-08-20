@@ -1,15 +1,19 @@
 <div class="wrapper">
-  <div class="header">
-    <h2>Gantt Chart Concept with CSS-Grid</h2>
+  <h2>Projects / {{ project.name }} / Gantt</h2>
+  <hr class="separator" />
+
+  <div class="tabs">
+    <a class="tab" (click)="navigateToTable()">Table</a>
+    <a class="tab active">Gantt</a>
   </div>
+
   <div class="gantt">
-    <!-- Days Row -->
+    <div class="month-year">{{ monthName }} {{ year }}</div>
     <div class="gantt__row gantt__row--days">
       <div class="gantt__row-first"></div>
-      <span *ngFor="let day of days">{{ day }}</span>
+      <span *ngFor="let day of daysInCurrentMonth">{{ day | date:'dd' }}</span>
     </div>
 
-    <!-- Task Rows by User -->
     <div class="gantt__row" *ngFor="let user of project.users">
       <div class="gantt__row-first">
         {{ user.fullName }}
@@ -17,8 +21,12 @@
       <ul class="gantt__row-bars">
         <li *ngFor="let task of tasksByUser[user.id]"
             [ngStyle]="{'grid-column': getTaskGridPosition(task)}"
-            [class.dependency]="task.dependencies">
+            [class.dependency]="task.dependencies.length > 0">
           {{ task.name }}
+          <div *ngFor="let dependency of task.dependencies"
+               class="dependency-line"
+               [ngStyle]="getDependencyLineStyle(task, dependency)">
+          </div>
         </li>
       </ul>
     </div>

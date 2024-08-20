@@ -63,8 +63,9 @@ export class NewTaskModalComponent implements OnInit {
         this.description,
         this.comments,
         this.activities,
-        this.appUserId  // Assigned user ID
+        this.appUserId
       );
+      this.projectService.addTaskToProject(this.project.id, newTask);
       this.taskAdded.emit({ projectId: this.appUserId, task: newTask });
       this.newTaskName = '';
       this.closeModal();

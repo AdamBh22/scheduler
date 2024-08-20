@@ -34,9 +34,9 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.projectService.taskAdded.subscribe(() => {
-      this.loadProject(this.project.id);
-    });
+    // this.projectService.taskAdded.subscribe(() => {
+    //   this.loadProject(this.project.id);
+    // });
   }
 
   ngOnDestroy(): void {

@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:100,400,700");
 
 body, html {
+  margin-left: 10px;
+  margin-top: 30px;
   font-family: "Roboto", sans-serif;
   background-color: #cddade;
   height: 100%;
@@ -24,6 +26,8 @@ body, html {
 }
 
 .gantt {
+  margin-top: 50px;
+  margin-left: 120px;
   display: grid;
   border: 0;
   border-radius: 12px;
@@ -46,12 +50,12 @@ body, html {
 
     &--days {
       color: #fff;
-      background-color: #0a3444 !important;
+      background-color: #6EACDA !important;
       border-bottom: 1px solid rgba(0, 0, 0, 0.1);
       grid-template-columns: 150px repeat(31, 1fr); // Adjust the number 31 according to the days in the month
       .gantt__row-first {
         border-top: 0 !important;
-        background-color: #0a3444 !important;
+        background-color: #6EACDA !important;
       }
       span {
         text-align: center;
@@ -108,4 +112,31 @@ body, html {
       }
     }
   }
+}
+.tab {
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-right: 20px;
+  padding-bottom: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000;
+  border-bottom: 2px solid transparent;
+  font-weight: bold;
+  margin-bottom: 15px;
+  &.active {
+    font-weight: bold;
+    border-bottom-color: #000;
+  }
+}
+.dependency-line {
+  position: absolute;
+  height: 2px;
+  background-color: yellow;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dependency-line.blocking {
+  background-color: red;
 }

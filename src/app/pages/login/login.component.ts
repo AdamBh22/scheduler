@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,11 @@ export class LoginComponent {
     email:'',
     password:''
   }
+  constructor(private router: Router) {}
   onSubmit() {
     console.log('Login data:', this.loginData);
+  }
+  navigateTo(route: string) {
+    this.router.navigate([`/${route}`]);
   }
 }

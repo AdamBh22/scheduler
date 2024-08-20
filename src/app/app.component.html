@@ -1,3 +1,4 @@
-<app-navbar></app-navbar>
-<app-sidebar></app-sidebar>
+<app-lnavbar></app-lnavbar>
+<app-navbar *ngIf="isNotSignInLoginPage()"></app-navbar>
+<app-sidebar *ngIf="isNotSignInLoginPage()"></app-sidebar>
 <router-outlet></router-outlet>
