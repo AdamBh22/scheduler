@@ -1,45 +1,54 @@
 import { Injectable } from '@angular/core';
 import { Task } from '../models/task.model';
-import { Observable, of } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {User} from "../models/user.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private tasks: Task[] = [
-    new Task(1, 'Task 1', 'Late', 'High', new Date(2024, 6, 1), new Date(2024, 6, 5), [], '', [], [], 1),
-    new Task(2, 'Task 2', 'Complete', 'Medium', new Date(2024, 6, 3), new Date(2024, 6, 7), [], '', [], [], 1),
-    new Task(3, 'Task 3', 'Next', 'Low', new Date(2024, 6, 5), new Date(2024, 8, 10), [], '', [], [], 1)
-  ];
 
-  private apiUrl = 'http://your-api-url.com';
+  private apiUrl = 'http://localhost:8080';
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getUserTasks(): Observable<Task[]> {
-    return of(this.tasks);
+  getUserTasks(userId:number): Observable<Task[]> {
+    return this.httpClient.get<Task[]>(`${this.apiUrl}/tasks/user/${userId}`).pipe(catchError(this.errorHandl));
   }
 
   getTasksByStatus(status: string): Observable<Task[]> {
-    const filteredTasks = this.tasks.filter(task => task.status === status);
-    return of(filteredTasks);
+    return this.httpClient.get<Task[]>(`${this.apiUrl}/tasks/status/${status}`).pipe(catchError(this.errorHandl));
   }
 
-  getTasksForToday(): Observable<Task[]> {
-    const today = new Date();
-    const tasksForToday = this.tasks.filter(task => {
-      const startDate = new Date(task.starting);
-      const endDate = new Date(task.ending);
-      return startDate <= today && today <= endDate;
-    });
-    return of(tasksForToday);
+  getTasksForToday(userId:number): Observable<Task[]> {
+    return this.httpClient.get<Task[]>(`${this.apiUrl}/tasksForToday/${userId}`).pipe(catchError(this.errorHandl));
   }
   getTaskById(taskId: number): Observable<Task> {
-    return this.http.get<Task>(`${this.apiUrl}/tasks/${taskId}`);
+    return this.httpClient.get<Task>(`${this.apiUrl}/tasks/${taskId}`).pipe(catchError(this.errorHandl));
   }
-  // getTaskById(taskId: number): Task | undefined {
-  //   return this.tasks.find(task => task.id === taskId);
-  // }
+  addTask(task: Task): Observable<Task> {
+    return this.httpClient.post<Task>(`${this.apiUrl}/tasks`, task).pipe(catchError(this.errorHandl));
+  }
+  updateTask(task: Task,taskid:number): Observable<Task> {
+    return this.httpClient.put<Task>(`${this.apiUrl}/tasks/${taskid}`, task).pipe(catchError(this.errorHandl));
+  }
+  deleteTask(taskId:number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.apiUrl}/tasks/${taskId}`).pipe(catchError(this.errorHandl));
+  }
+
+  getRelatedTask(id:number): Observable<Task[]> {
+    return this.httpClient.get<Task[]>(`${this.apiUrl}/dependencies/relatedTask/${id}`).pipe(catchError(this.errorHandl));
+  }
+
+  private errorHandl(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
+  }
 }

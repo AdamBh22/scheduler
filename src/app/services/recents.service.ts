@@ -1,44 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Recent } from '../models/recents.model';
-import { Observable, of } from 'rxjs';
+import {catchError, Observable, of, throwError} from 'rxjs';
+import {UserService} from "./user.service";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecentsService {
-  private recents: Recent[] = [];
-  private nextId = 1;
-  private storageKey = 'recentActivities';
 
-  constructor() {
-    this.loadRecentsFromStorage();
+  constructor(protected httpClient: HttpClient) {
   }
+  private baseURL = 'http://localhost:8080';
 
   getRecents(): Observable<Recent[]> {
-    return of(this.recents);
+    return this.httpClient.get<Recent[]>(`${this.baseURL}/recents`).pipe(catchError(this.errorHandl));
   }
 
-  addRecent(name: string, type: 'task' | 'project' | 'dashboard' | 'calendar'): Observable<void> {
-    const recent: Recent = {
-      id: this.nextId++,
-      name: name,
-      date: new Date(),
-      type: type
-    };
-    this.recents.push(recent);
-    this.saveRecentsToStorage();
-    return of();
+  addRecent(recent:Recent): Observable<Recent> {
+    return this.httpClient.post<Recent>(`${this.baseURL}/recents`, recent).pipe(catchError(this.errorHandl));
   }
 
-  private loadRecentsFromStorage(): void {
-    const storedRecents = localStorage.getItem(this.storageKey);
-    if (storedRecents) {
-      this.recents = JSON.parse(storedRecents);
-      this.nextId = this.recents.length > 0 ? Math.max(...this.recents.map(r => r.id)) + 1 : 1;
+  getRecentsByUserId(id:number): Observable<Recent[]> {
+    return this.httpClient.get<Recent[]>(`${this.baseURL}/recents/user/${id}`).pipe(catchError(this.errorHandl));
+  }
+
+  private errorHandl(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  }
-
-  private saveRecentsToStorage(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.recents));
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

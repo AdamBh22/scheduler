@@ -9,10 +9,17 @@ import {UserService} from "../../../services/user.service";
 })
 export class UserProfileModalComponent {
   user: User = new User(1,'', '', '', '',[],[]);
-
+  appUserId:number = 1;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.user = this.userService.getUser();
+    this.userService.getUserById(this.appUserId).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error: any) => {
+        console.error('Error fetching user', error);
+      }
+    });
   }
 }

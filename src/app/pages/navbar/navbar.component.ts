@@ -4,6 +4,7 @@ import { Modal } from "bootstrap";
 import * as bootstrap from "bootstrap";
 import { User } from "../../models/user.model"
 import {UserService} from "../../services/user.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -11,11 +12,22 @@ import {UserService} from "../../services/user.service";
 })
 export class NavbarComponent  {
   username: string = 'john'; // This should be fetched from user service
-  user: User;
+  user=new User(1,'','','','',[],[]);
 
   constructor(private router: Router, private userService: UserService) {
-    this.user = this.userService.getUser();
-    this.username = this.user.fullName.charAt(0);
+  }
+
+  ngOnInit(): void {
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+      }
+    });
   }
   openProfileModal(event: Event): void {
     event.preventDefault();

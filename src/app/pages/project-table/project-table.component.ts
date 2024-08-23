@@ -1,11 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import {catchError, map, Observable, of, Subscription} from 'rxjs';
 import { ProjectService } from '../../services/project.service';
 import { UserService } from '../../services/user.service';
 import { Project } from '../../models/project.model';
 import { Task } from '../../models/task.model';
 import { User } from '../../models/user.model';
+import {AppUserProjectService} from "../../services/app-user-project.service";
+import {AppUserProject} from "../../models/AppUserProject.model";
 
 @Component({
   selector: 'app-project-table',
@@ -23,20 +25,18 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private projectService: ProjectService,
-    private userService: UserService
+    private userService: UserService,
+    protected appUserProjectService: AppUserProjectService,
   ) {}
 
   ngOnInit(): void {
     this.routeSub.add(
       this.route.paramMap.subscribe(params => {
         const projectId = +params.get('id')!;
-        this.loadProject(projectId); // This will call loadUsers() internally
+        this.loadProject(projectId);
+        this.loadUsers(projectId);
       })
     );
-
-    // this.projectService.taskAdded.subscribe(() => {
-    //   this.loadProject(this.project.id);
-    // });
   }
 
   ngOnDestroy(): void {
@@ -48,32 +48,25 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
       if (project) {
         this.project = project;
         this.tasks = project.tasks;
-        this.loadUsers();
       } else {
         console.error('Project not found');
       }
     });
   }
 
-  loadUsers(): void {
-    const allUsers = this.userService.getUsers(); // Retrieve all users
-
-    if (this.project && this.project.users) {
-      this.users = allUsers.filter(user =>
-        !this.project.users.some(projUser => projUser.id === user.id)
-      );
-    } else {
-      this.users = allUsers;
-    }
+  loadUsers(projectId:number): void {
+    this.userService.getUsersByProject(projectId).subscribe(users => {
+      this.users = users;
+    })
   }
 
   addUserToProject(): void {
-    const user = this.userService.getUserById(this.selectedUserId);
-    console.log(user);
-    if (user) {
-      this.projectService.addUserToProject(this.project.id, user);
-      console.log(this.project.users);
-    }
+    const user = this.userService.getUserById(this.selectedUserId).subscribe(user =>{
+      if (user) {
+        const appUserProject = new AppUserProject(user, this.project);
+        this.appUserProjectService.addAppUserProject(appUserProject);
+      }
+    });
     this.ngOnInit();
   }
 
@@ -81,9 +74,11 @@ export class ProjectTableComponent implements OnInit, OnDestroy {
     this.router.navigate([`/projectGantt/${this.project.id}`]);
   }
 
-  getUserNameById(id: number): string {
-    const user = this.userService.getUserById(id);
-    return user ? user.fullName : 'Unknown User';
+  getUserNameById(id: number): Observable<string> {
+    return this.userService.getUserById(id).pipe(
+      map(user => user.fullName),
+      catchError(() => of('Unknown User'))
+    );
   }
 
   getStatusClass(status: string): string {

@@ -14,7 +14,7 @@
       <span *ngFor="let day of daysInCurrentMonth">{{ day | date:'dd' }}</span>
     </div>
 
-    <div class="gantt__row" *ngFor="let user of project.users">
+    <div class="gantt__row" *ngFor="let user of users">
       <div class="gantt__row-first">
         {{ user.fullName }}
       </div>

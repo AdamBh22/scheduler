@@ -1,10 +1,12 @@
 import { User } from './user.model';
+import {Task} from "./task.model";
 
 export class Comment {
   constructor(
-    public id: number,
     public text: string,
-    public author: User
+    public userId:number,
+    public task:Task,
+    public id?: number
   )
   {}
 }

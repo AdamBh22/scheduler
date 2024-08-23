@@ -8,6 +8,7 @@ import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import {Project} from "../../../models/project.model";
 import {ProjectService} from "../../../services/project.service";
+import {TaskService} from "../../../services/task.service";
 
 @Component({
   selector: 'app-new-task-modal',
@@ -16,57 +17,56 @@ import {ProjectService} from "../../../services/project.service";
 })
 export class NewTaskModalComponent implements OnInit {
   @Output() taskAdded = new EventEmitter<{ projectId: number, task: Task }>();
-  @Input() appUserId!: number;
-  project =new Project(1,"",[],[]);
+  @Input() projectId!: number;
+  project =new Project("",[],[]);
 
   newTaskName: string = '';
   status: string = 'To Do';
   priority: string = 'Medium';
-  projectId: number = 0;
+  appUserId: number = 0;
   starting: Date = new Date();
   ending: Date = new Date();
   description: string = '';
   dependencies: Dependency[] = [];
   comments: Comment[] = [];
   activities: Activity[] = [];
-  users: User[] = [];  // To store the list of users
+  users: User[] = [];
 
-  constructor(private userService: UserService,private projectService: ProjectService,) {}
+  constructor(private userService: UserService,private projectService: ProjectService,protected taskService: TaskService) {}
 
   ngOnInit(): void {
-    console.log("found project id:"+this.project.id);
+    this.loadProject();
     this.loadUsers();
   }
 
   loadUsers(): void {
-    this.projectService.getProjectById(this.project.id).subscribe((project) => {
-      if (project) {
-        this.project = project;
-        this.users = this.project.users;
+    this.userService.getUsersByProject(this.projectId).subscribe((users) => {
+      if (users) {
+        this.users = users;
       } else {
-        console.error('Project not found');
+        console.error('no users found');
       }
     });
   }
 
 
   addNewTask() {
-    if (this.newTaskName.trim() && this.appUserId) {
+    if (this.newTaskName.trim() && this.projectId) {
       const newTask = new Task(
-        Date.now(),
-        this.newTaskName.trim(),
-        this.status,
-        this.priority,
-        this.starting,
-        this.ending,
-        this.dependencies = [],
-        this.description,
-        this.comments,
-        this.activities,
-        this.appUserId
       );
-      this.projectService.addTaskToProject(this.project.id, newTask);
-      this.taskAdded.emit({ projectId: this.appUserId, task: newTask });
+      newTask.name=this.newTaskName;
+      newTask.userId=this.appUserId;
+      newTask.project=this.project;
+      newTask.starting=this.starting;
+      newTask.ending=this.ending;
+      newTask.status=this.status;
+      newTask.dependencies = this.dependencies;
+      newTask.comments = this.comments;
+      newTask.activities = this.activities;
+      newTask.priority=this.priority;
+      newTask.description=this.description;
+     // this.taskService.addTask(newTask);
+      this.taskAdded.emit({ projectId: this.projectId, task: newTask });
       this.newTaskName = '';
       this.closeModal();
     }
@@ -80,5 +80,15 @@ export class NewTaskModalComponent implements OnInit {
         modal.hide();
       }
     }
+  }
+
+  private loadProject() {
+    this.projectService.getProjectById(this.projectId).subscribe((project) => {
+      if (project) {
+        this.project = project;
+      } else {
+        console.error('Project not found');
+      }
+    });
   }
 }

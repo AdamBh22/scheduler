@@ -1,11 +1,12 @@
 import { Task } from './task.model';
 import {User} from "./user.model";
+import {AppUserProject} from "./AppUserProject.model";
 
 export class Project {
   constructor(
-    public id: number,
     public name: string,
     public tasks: Task[] = [],
-    public users: User[] = []
+    public appUserProjects: AppUserProject[] = [],
+    public id?: number,
   ) {}
 }

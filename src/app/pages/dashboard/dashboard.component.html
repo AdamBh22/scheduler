@@ -2,7 +2,7 @@
   <h2 class="header">Dashboard</h2>
   <hr class="separator"/>
   <div class="projects-overview">
-    <div class="card border-info mb-3" *ngFor="let project of stats" (click)="navigateToProject(project.id)">
+    <div class="card border-info mb-3" *ngFor="let project of stats" (click)="navigateToProject(project.id)" href="/pro">
       <div class="project-header">
         <span class="card-header">{{ project.name }}</span>
         <span class="card-header">{{ project.progress }}%</span>

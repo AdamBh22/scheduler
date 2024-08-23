@@ -14,7 +14,7 @@
                 <span class="badge" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
               </h6>
               <p><strong>Deadline:</strong> {{ task.ending | date }}</p>
-              <p><strong>Assigned to:</strong> {{ getUserById(task.appUserId)?.fullName}}</p>
+              <p><strong>Assigned to:</strong>{{ (getUserById(task.userId) | async)?.fullName }}</p>
               <p>
                 <strong>Priority:</strong>
                 <span class="badge" [ngClass]="getPriorityClass(task.priority)">{{ task.priority }}</span>
@@ -22,7 +22,7 @@
               <p>
                 <strong>Dependency:</strong>
                 <span *ngFor="let dependency of task.dependencies" class="badge bg-warning text-dark">
-                  {{ dependency.status }} with {{ getTaskById(dependency.taskId)}}
+                  {{ dependency.status }} with {{ getTaskById(dependency.relatedTaskId)}}
                 </span>
               </p>
               <button class="btn btn-primary btn-sm mb-3" (click)="openNewDependencyModal()">Add a new Dependency</button>
@@ -35,7 +35,7 @@
               <p><strong>Comments:</strong></p>
               <ul>
                 <li *ngFor="let comment of task.comments">
-                  <strong>{{ comment?.author?.fullName }}:</strong> {{ comment.text }}
+                  <strong>{{ (getUserById(comment.userId) | async)?.fullName }}:</strong> {{ comment.text }}
                 </li>
               </ul>
               <div class="input-group mb-3">
@@ -52,7 +52,7 @@
             <ul>
               <li *ngFor="let activity of task?.activities">
                 <i class="fa-solid fa-star-of-life"></i>
-                {{ activity?.user?.fullName }} {{ activity.name }} {{ activity.id | date: 'dd/MM/yyyy' }}
+                {{ (getUserById(activity.userId) | async)?.fullName }} {{ activity.name }} {{ activity.startTime }}
               </li>
             </ul>
           </div>

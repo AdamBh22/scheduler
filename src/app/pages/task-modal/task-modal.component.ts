@@ -8,6 +8,10 @@ import { Comment } from '../../models/comment.model';
 import { Activity } from "../../models/activity.model";
 import {TaskService} from "../../services/task.service";
 import {User} from "../../models/user.model";
+import {Observable, of, tap} from "rxjs";
+import {CommentService} from "../../services/comment.service";
+import {ActivityService} from "../../services/activity.service";
+import {DependencyService} from "../../services/dependency.service";
 
 @Component({
   selector: 'app-task-modal',
@@ -21,8 +25,18 @@ export class TaskModalComponent {
 
   newCommentText: string = '';
   newSubtaskName: string = '';
+  userId:number = 1;
+  userCache: Map<number, User> = new Map();
 
-  constructor(private userService: UserService,private taskService: TaskService) {}
+  constructor(protected userService: UserService,
+              protected taskService: TaskService,
+              protected commentService: CommentService,
+              protected activityService: ActivityService,
+              protected dependencyService: DependencyService,
+              )
+  {
+
+  }
 
   openModal() {
     if (this.task) {
@@ -59,32 +73,35 @@ export class TaskModalComponent {
   onDependencyCreated(dependency: Dependency) {
     if (this.task) {
       this.task.dependencies.push(dependency);
-
-      const newActivity: Activity = {
-        user: this.userService.getUser(),
-        name: 'ADD_DEPENDENCY',
-        id: Date.now()
-      };
-      this.task.activities.push(newActivity);
+      this.dependencyService.addDependency(dependency);
+      // const newActivity: Activity = {
+      //   userId: this.userId,
+      //   name: 'ADD_DEPENDENCY',
+      //   startTime: new Date(),
+      //   task: this.task,
+      // };
+      // this.task.activities.push(newActivity);
     }
   }
 
   addComment() {
     if (this.task && this.newCommentText.trim()) {
       const newComment: Comment = {
-        id: Date.now(),
-        author: this.userService.getUser(),
-        text: this.newCommentText
+        userId:this.userId,
+        text: this.newCommentText,
+        task: this.task
       };
-      this.task.comments.push(newComment);
-
-      const newActivity: Activity = {
-        user: this.userService.getUser(),
-        name: 'ADD_COMMENT',
-        id: Date.now()
-      };
-      this.task.activities.push(newActivity);
-
+      this.task.comments.push(newComment); // *****
+      this.commentService.addComment(newComment);
+      // const newActivity: Activity = {
+      //   userId: this.userId,
+      //   task: this.task,
+      //   startTime: new Date(),
+      //   name: '_ADD_COMMENT',
+      //   id: Date.now()
+      // };
+      // this.task.activities.push(newActivity);// *****
+      // console.log(newActivity.userId);
       this.newCommentText = '';
     }
   }
@@ -93,8 +110,10 @@ export class TaskModalComponent {
     if (this.newSubtaskName.trim()) {
       this.openNewTaskModal();
       const newActivity: Activity = {
-        user: this.userService.getUser(),
-        name: 'ADD_SUBTASK',
+        userId: this.userId,
+        task: this.task!,
+        startTime: new Date(),
+        name: '_ADD_SUBTASK',
         id: Date.now()
       };
       this.task?.activities.push(newActivity);
@@ -126,12 +145,15 @@ export class TaskModalComponent {
       default: return '';
     }
   }
-  getTaskById(id: number): Task | null {
-    const task = this.tasks.find((task) => task.id === id);
-    return task !== undefined ? task : null;
+  getTaskById(id: number): Observable<Task> {
+    return this.taskService.getTaskById(id);
   }
-  getUserById(userId: number): User | null {
-    const user = this.userService.getUserById(userId);
-    return user || null;
+
+
+
+  getUserById(userId: number): Observable<User> {
+    return this.userService.getUserById(userId);
   }
+
+
 }

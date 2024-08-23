@@ -1,77 +1,44 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, of} from 'rxjs';
+import {BehaviorSubject, catchError, Observable, of, throwError} from 'rxjs';
 import { Project } from '../models/project.model';
-import {Task} from "../models/task.model";
-import {User} from "../models/user.model";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-  private projects: Project[] = [
-    new Project(1, 'Project 1', [
-      new Task(1, 'Task 1', 'To Do', 'High', new Date('2024-07-19'), new Date('2024-08-24'), [], '', [], [], 1),
-      new Task(2, 'Task 2', 'In Progress', 'Medium', new Date('2024-08-20'), new Date('2024-09-27'), [], '', [], [], 1),
-      new Task(3, 'Task 3', 'In Progress', 'Medium', new Date('2024-08-20'), new Date('2024-09-27'), [], '', [], [], 2)
-    ]),
-    new Project(2, 'Project 2', [
-      new Task(3, 'Task 3', 'Complete', 'Low', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 2)
-    ]),
-    new Project(3, 'Project 3', [
-      new Task(4, 'Task 4', 'Complete', 'Low', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
-      new Task(5, 'Task 5', 'In Progress', 'Middle', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
-    ]),
-    new Project(4, 'Project 4', [
-      new Task(4, 'Task 4', 'Complete', 'Low', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
-      new Task(5, 'Task 5', 'In Progress', 'Middle', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
-    ]),
-    new Project(5, 'Project 5', [
-      new Task(4, 'Task 4', 'Complete', 'Low', new Date('2024-07-21'), new Date('2024-07-30'), [], '', [], [], 3),
-      new Task(5, 'Task 5', 'In Progress', 'Middle', new Date('2024-07-21'), new Date('2024-08-11'), [], '', [], [], 3)
-    ])
-  ];
-  constructor() {
-    this.saveProjectsToStorage();
-    this.loadProjectsFromStorage();
+  private Url = 'http://localhost:8080';
+  constructor(protected httpClient: HttpClient) {
   }
-  private loadProjectsFromStorage(): void {
-    const storedProjects = localStorage.getItem('projects');
-    if (storedProjects) {
-      this.projects = JSON.parse(storedProjects);
-    }
-  }
-  private saveProjectsToStorage(): void {
-    localStorage.setItem('projects', JSON.stringify(this.projects));
-  }
-  taskAdded: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
-  UserAdded: BehaviorSubject<void> = new BehaviorSubject<void>(undefined);
 
   getAllProjects(): Observable<Project[]> {
-    return of(this.projects);
+    return this.httpClient.get<Project[]>(`${this.Url}/projects`).pipe(catchError(this.errorHandl));
   }
 
   getProjectById(id: number): Observable<Project | undefined> {
-    return of(this.projects.find(project => project.id === id));
+    return this.httpClient.get<Project>(`${this.Url}/projects/${id}`).pipe(catchError(this.errorHandl));
   }
-  addTaskToProject(projectId: number, task: Task): void {
-    const project = this.projects.find(p => p.id === projectId);
-    if (project) {
-      project.tasks.push(task);
-      this.saveProjectsToStorage();
-      this.taskAdded.next();
+
+  addProject(project: Project): Observable<Project> {
+    return this.httpClient.post<Project>(`${this.Url}/projects`, project).pipe(catchError(this.errorHandl));
+  }
+
+  deleteProject(id: number): Observable<void> {
+    return this.httpClient.delete<void>(`${this.Url}/projects/${id}`).pipe(catchError(this.errorHandl));
+  }
+
+  getProjectByUserId(id: number): Observable<Project[]> {
+    return this.httpClient.get<Project[]>(`${this.Url}/users/projectsByUser/${id}`).pipe(catchError(this.errorHandl));
+  }
+
+  private errorHandl(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      console.error('Project not found');
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-  }
-  addUserToProject(projectId: number, user: User): void {
-    const project = this.projects.find(p => p.id === projectId);
-    if(project){
-      project.users.push(user);
-      this.saveProjectsToStorage();
-      this.UserAdded.next();
-    }
-    else{
-      console.error('Project not found');
-    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

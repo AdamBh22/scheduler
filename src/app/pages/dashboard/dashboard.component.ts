@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { Project } from '../../models/project.model';
+import {User} from "../../models/user.model";
+import {UserService} from "../../services/user.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 interface ProjectStat {
   id: number;
@@ -23,18 +26,31 @@ interface ProjectStat {
 })
 export class DashboardComponent implements OnInit {
   stats: ProjectStat[] = [];
-
+  user=new User(1,'','','','',[],[]);
   constructor(
     private projectService: ProjectService,
-    private router: Router
-  ) {}
+    private router: Router,
+    protected userService: UserService,
+  ) {
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error: any) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.loadProjectStats();
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadProjectStats();
   }
 
   loadProjectStats(): void {
-    this.projectService.getAllProjects().subscribe((projects: Project[]) => {
+    this.projectService.getProjectByUserId(this.user.id).subscribe((projects: Project[]) => {
       this.stats = projects.map(project => {
         const completed = project.tasks.filter(task => task.status === 'Complete').length;
         const inProgress = project.tasks.filter(task => task.status === 'In Progress').length;
@@ -45,10 +61,10 @@ export class DashboardComponent implements OnInit {
         const progress = tasksCount > 0 ? Math.round((completed / tasksCount) * 100) : 0;
 
         return {
-          id: project.id,
+          id: project.id ?? 0, // Provide a default value if project.id is undefined
           name: project.name,
           progress: progress,
-          deadline: new Date(), // You might want to update this if you have a deadline property
+          deadline: new Date(), // Ensure you provide a meaningful date
           tasksCount: tasksCount,
           completed: completed,
           inProgress: inProgress,

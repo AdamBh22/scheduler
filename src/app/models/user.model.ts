@@ -1,5 +1,6 @@
 import {Recent} from "./recents.model";
 import {Project} from "./project.model";
+import {AppUserProject} from "./AppUserProject.model";
 
 export class User {
   constructor(
@@ -9,6 +10,6 @@ export class User {
     public role: string,
     public password: string,
     public recents: Recent[],
-    public projects: Project[] = [],
+    public appUserProjects: AppUserProject[] = [],
   ) {}
 }

@@ -8,7 +8,7 @@
         <ul>
           <li *ngFor="let recent of recents" class="card-title" (click)="navigateToRecent(recent)">
             <i class="fa-solid fa-circle-info"></i>
-            <span class="card-item">{{ recent.name }}</span>
+            <span class="card-item">{{ recent.type }}</span>
           </li>
         </ul>
       </div>
@@ -17,7 +17,7 @@
       <h2 class="card-header"><i class="fas fa-calendar"></i> Agenda</h2>
       <h2 class="date">{{ today | date: 'd MMMM yyyy' }}</h2>
       <table class="agenda-table">
-        <tr *ngFor="let agendaItem of agenda" (click)="navigateToTask(agendaItem.id)">
+        <tr *ngFor="let agendaItem of agenda">
           <td class="card-member">
             <i class="fa-solid fa-calendar-days"></i>
             <span class="card-item">{{ agendaItem.name }}</span>
@@ -33,7 +33,7 @@
             <i class="fa-solid fa-check"></i> Today ({{ workItems.today.length }})
           </h3>
           <div *ngIf="isWorkListVisible.today" class="work-items">
-            <div *ngFor="let item of workItems.today" (click)="navigateToTask(item.id)">
+            <div *ngFor="let item of workItems.today">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -44,7 +44,7 @@
             <i class="fa-solid fa-square-caret-right"></i> Next ({{ workItems.next.length }})
           </h3>
           <div *ngIf="isWorkListVisible.next" class="work-items">
-            <div *ngFor="let item of workItems.next" (click)="navigateToTask(item.id)">
+            <div *ngFor="let item of workItems.next">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -55,7 +55,7 @@
             <i class="fa-solid fa-circle-exclamation"></i> Late ({{ workItems.late.length }})
           </h3>
           <div *ngIf="isWorkListVisible.late" class="work-items">
-            <div *ngFor="let item of workItems.late" (click)="navigateToTask(item.id)">
+            <div *ngFor="let item of workItems.late">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>
@@ -66,7 +66,7 @@
             <i class="fa-regular fa-pen-to-square"></i> Unplanned ({{ workItems.unplanned.length }})
           </h3>
           <div *ngIf="isWorkListVisible.unplanned" class="work-items">
-            <div *ngFor="let item of workItems.unplanned" (click)="navigateToTask(item.id)">
+            <div *ngFor="let item of workItems.unplanned">
               <i class="fa-regular fa-star-half"></i>
               <span> {{ item.name }}</span>
             </div>

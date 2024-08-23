@@ -4,6 +4,11 @@ import { ProjectService } from '../../services/project.service';
 import { Project } from '../../models/project.model';
 import { Task } from '../../models/task.model';
 import { Dependency } from '../../models/dependency.model';
+import {AppUserProjectService} from "../../services/app-user-project.service";
+import {UserService} from "../../services/user.service";
+import {User} from "../../models/user.model";
+import {catchError, Observable, throwError} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-project-gantt',
@@ -13,15 +18,17 @@ import { Dependency } from '../../models/dependency.model';
 export class ProjectGanttComponent implements OnInit {
   daysInCurrentMonth: Date[] = [];
   currentMonth: number = 1;
-  project: Project = new Project(0, '', [], []);
+  project: Project = new Project('', [], []);
   tasksByUser: { [userId: number]: Task[] } = {};
   monthName!: string;
   year!: number;
+  users!:User[];
 
   constructor(
-    private projectService: ProjectService,
-    private route: ActivatedRoute,
-    private router: Router
+    protected projectService: ProjectService,
+    protected route: ActivatedRoute,
+    protected userService: UserService,
+    protected router: Router
   ) {
   }
 
@@ -46,10 +53,21 @@ export class ProjectGanttComponent implements OnInit {
 
   updateTasksByUser(): void {
     this.tasksByUser = {};
-    this.project.users.forEach(user => {
-      this.tasksByUser[user.id] = this.project.tasks.filter(task => task.appUserId === user.id);
-    });
+
+    if (this.project.id !== undefined) {
+      this.userService.getUsersByProject(this.project.id).subscribe(users => {
+        this.users = users;
+        users.forEach(user => {
+          if (user.id !== undefined) {
+            this.tasksByUser[user.id] = this.project.tasks.filter(task => task.userId === user.id);
+          }
+        });
+      });
+    }
   }
+
+
+
 
   generateDaysInCurrentMonth(): void {
     const date = new Date();
@@ -79,7 +97,7 @@ export class ProjectGanttComponent implements OnInit {
   }
 
   getDependencyLineStyle(task: Task, dependency: Dependency): any {
-    const targetTask = this.project.tasks.find(t => t.id === dependency.taskId);
+    const targetTask = this.project.tasks.find(t => t.id === dependency.relatedTaskId);
     if (!targetTask) return {};
 
     const taskStartDate = new Date(task.starting).getTime();
@@ -101,5 +119,15 @@ export class ProjectGanttComponent implements OnInit {
 
   navigateToTable(): void {
     this.router.navigate([`/projectTable/${this.project.id}`]);
+  }
+  private errorHandl(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

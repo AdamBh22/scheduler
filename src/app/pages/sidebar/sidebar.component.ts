@@ -8,6 +8,10 @@ import { TaskModalComponent } from '../task-modal/task-modal.component';
 import { Modal } from 'bootstrap';
 import { Task } from '../../models/task.model';
 import { RecentsService } from '../../services/recents.service';
+import {Recent} from "../../models/recents.model";
+import {User} from "../../models/user.model";
+import {UserService} from "../../services/user.service";
+import {TaskService} from "../../services/task.service";
 
 @Component({
   selector: 'app-sidebar',
@@ -22,17 +26,30 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   currentView: string = 'home';
   showProjects: boolean = false;
   projects: Project[] = [];
+  user=new User(1,'','','','',[],[]);
 
   constructor(
-    private router: Router,
-    private projectService: ProjectService,
-    private recentsService: RecentsService
+    protected router: Router,
+    protected projectService: ProjectService,
+    protected recentsService: RecentsService,
+    protected taskService: TaskService,
+    protected userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.projectService.getAllProjects().subscribe(projects => {
-      this.projects = projects;
-    });
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.projectService.getAllProjects().subscribe(projects => {
+          this.projects = projects;
+        });
+      }
+    })
   }
 
   ngAfterViewInit(): void {
@@ -54,14 +71,14 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     this.showProjects = !this.showProjects;
   }
 
-  navigateToProject(event: Event, projectId: number): void {
+  navigateToProject(event: Event, projectId: number|undefined): void {
     event.preventDefault();
     this.router.navigate([`/projectTable/${projectId}`]).then(() => {
       this.logRecentActivity(`Project ${projectId}`, 'project');
     });
   }
 
-  navigateToTask(event: Event, taskId: number): void {
+  navigateToTask(event: Event, taskId: number|undefined): void {
     event.preventDefault();
     const project = this.projects.find(p => p.tasks.some(t => t.id === taskId));
     if (project) {
@@ -87,22 +104,50 @@ export class SidebarComponent implements OnInit, AfterViewInit {
     }
   }
 
-  openOptionsModal(event: Event, projectId: number): void {
+  openOptionsModal(event: Event, projectId: number|undefined): void {
     event.preventDefault();
-    this.optionsModal.openModal(projectId);
+    if(projectId!==undefined){
+      this.optionsModal.openModal(projectId);
+    }
   }
 
   onProjectAdded(project: Project): void {
-    this.projects.push(project);
+    this.projectService.addProject(project);
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.projectService.getAllProjects().subscribe(projects => {
+          this.projects = projects;
+        });
+      }
+    })
   }
 
   deleteProject(projectId: number): void {
-    this.projects = this.projects.filter(project => project.id !== projectId);
+    this.projectService.deleteProject(projectId).subscribe();
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.projectService.getAllProjects().subscribe(projects => {
+          this.projects = projects;
+        });
+      }
+    })
   }
 
   addNewTask(event: { projectId: number, task: Task }): void {
     this.newTaskModal.projectId=event.projectId;
-    this.projectService.addTaskToProject(event.projectId, event.task);
+    this.taskService.addTask(event.task);
   }
 
   onAddNewTask(projectId: number): void {
@@ -114,11 +159,25 @@ export class SidebarComponent implements OnInit, AfterViewInit {
       const modal = new Modal(modalElement);
       modal.show();
     }
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.projectService.getAllProjects().subscribe(projects => {
+          this.projects = projects;
+        });
+      }
+    })
   }
 
   private logRecentActivity(name: string, type: 'task' | 'project' | 'dashboard' | 'calendar'): void {
-    this.recentsService.addRecent(name, type).subscribe(() => {
-      console.log('Recent activity logged:', name, type);
+    let recent = new Recent(new Date(), type, this.user);
+    this.recentsService.addRecent(recent).subscribe(() => {
+      console.log('recent added ');
     });
   }
 }

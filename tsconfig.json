@@ -24,7 +24,8 @@
       "dom"
     ],
     "typeRoots": ["node_modules/@types"],
-    "types": ["bootstrap", "node"]
+    "types": ["bootstrap", "node"],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

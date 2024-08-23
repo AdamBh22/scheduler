@@ -31,7 +31,7 @@
       <tr *ngFor="let task of tasks; let i = index">
         <td class="tab-elem table-content"> {{ i + 1 }}</td>
         <td class="tab-elem table-content"> {{ task.name }}</td>
-        <td class="tab-elem table-content"> {{ getUserNameById(task.appUserId) }}</td>
+        <td class="tab-elem table-content"> {{ getUserNameById(task.userId) | async }}</td>
         <td class="tab-elem table-content" [ngClass]="getStatusClass(task.status)"> {{ task.status }}</td>
         <td class="tab-elem table-content"> {{ task.ending | date: 'dd/MM/yyyy' }}</td>
         <td class="tab-elem table-content" [ngClass]="getPriorityClass(task.priority)">

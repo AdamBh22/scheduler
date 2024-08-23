@@ -12,6 +12,7 @@ export class CalendarComponent implements OnInit {
   monthName!: string;
   year!: number;
   today: Date = new Date();
+  appUserId: number = 1;
 
   tasks: Task[] = [];
 
@@ -22,7 +23,7 @@ export class CalendarComponent implements OnInit {
   }
 
   loadTasks() {
-    this.taskService.getUserTasks().subscribe(tasks => {
+    this.taskService.getUserTasks(this.appUserId).subscribe(tasks => {
       this.tasks = tasks;
       console.log('Tasks loaded:', this.tasks); // Add this line
       const now = new Date();
@@ -35,7 +36,7 @@ export class CalendarComponent implements OnInit {
     this.monthName = new Date(year, month).toLocaleString('default', { month: 'long' });
 
     const firstDay = new Date(year, month, 1).getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate(); // Correct days in month calculation
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
     let dayCounter = 1;
 
     this.calendar = [];
@@ -60,7 +61,7 @@ export class CalendarComponent implements OnInit {
   }
 
   isDateInRange(startDate: Date, endDate: Date, date: Date): boolean {
-    console.log(`Checking range: ${startDate} - ${endDate}, Date: ${date}`); // Add this line
+    console.log(`Checking range: ${startDate} - ${endDate}, Date: ${date}`);
     return date >= startDate && date <= endDate;
   }
 

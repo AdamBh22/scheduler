@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { Modal } from 'bootstrap';
 import { Task } from '../../../models/task.model';
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-options-modal',
@@ -12,6 +13,8 @@ export class OptionsModalComponent {
   @Output() addNewTask = new EventEmitter<number>(); // Emit the projectId only
   @Input() projectId!: number;
 
+  constructor(protected projectService: ProjectService) {
+  }
   openModal(projectId: number) {
     this.projectId = projectId;
     const modalElement = document.getElementById('optionsModal');
@@ -23,6 +26,7 @@ export class OptionsModalComponent {
 
   onDeleteProject(event:Event) {
     event.stopPropagation();
+    this.projectService.deleteProject(this.projectId);
     this.deleteProject.emit(this.projectId);
     this.closeModal();
   }

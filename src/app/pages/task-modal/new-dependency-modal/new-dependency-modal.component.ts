@@ -12,7 +12,7 @@ import {TaskService} from "../../../services/task.service";
 export class NewDependencyModalComponent {
   @Output() dependencyCreated = new EventEmitter<Dependency>();
   @Input() tasks: Task[] = [];
-  task=new Task(0,"","","",new Date(),new Date(),[],"",[],[],0);
+  task=new Task();
 
   selectedTask: Task | null = null;
   dependencyType: string = 'On hold';
@@ -45,11 +45,10 @@ export class NewDependencyModalComponent {
 
   createDependency() {
     console.log(this.selectedTask);
-    if (this.selectedTask && this.dependencyType) {
+    if (this.selectedTask && this.selectedTask.id!== undefined && this.dependencyType) {
       console.log(this.selectedTask);
       console.log(this.dependencyType);
       const newDependency = new Dependency(
-        Date.now(),
         this.dependencyType,
         this.task,
         this.selectedTask.id
@@ -62,8 +61,4 @@ export class NewDependencyModalComponent {
 
   protected readonly Task = Task;
 
-  getTaskById(id: number): Task | null {
-    const task = this.tasks.find((task) => task.id === id);
-    return task !== undefined ? task : null;
-  }
 }

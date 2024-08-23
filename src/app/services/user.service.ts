@@ -1,30 +1,54 @@
 import { Injectable } from '@angular/core';
-import {User} from "../models/user.model";
+import { User } from "../models/user.model";
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private user: User=new User(1,'john.doe@example.com', 'John Doe', 'Project Manager', 'password', [], []);
-  private users: User[] = [
-    new User(1,'john.doe@example.com', 'John Doe', 'Project Manager', 'password', [], []),
-    new User(2,'jane.smith@example.com', 'Jane Smith', 'Developer', 'password', [], []),
+  constructor(protected httpClient: HttpClient) {}
 
-  ];
+  private baseURL = 'http://localhost:8080';
 
-  getUserById(userId: number): User | undefined {
-    return this.users.find(user => user.id == userId);
+  getUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.baseURL}/users`).pipe(
+      catchError(this.errorHandl)
+    );
   }
 
-  getUserByEmail(email: string): User | undefined {
-    return this.users.find(user => user.email == email);
+  getUserById(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${this.baseURL}/users/${id}`).pipe(
+      catchError(this.errorHandl)
+    );
   }
 
-  getUsers(): User[] {
-    return this.users;
+  addUser(user: User): Observable<User> {
+    return this.httpClient.post<User>(`${this.baseURL}/users/add`, user).pipe(
+      catchError(this.errorHandl)
+    );
   }
 
-  getUser():User{
-    return this.user;
+  updateUser(user: User, id: number): Observable<User> {
+    return this.httpClient.put<User>(`${this.baseURL}/users/${id}`, user).pipe(
+      catchError(this.errorHandl)
+    );
+  }
+
+  getUsersByProject(projectId: number): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.baseURL}/projects/usersByProject/${projectId}`).pipe(
+      catchError(this.errorHandl)
+    );
+  }
+  private errorHandl(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

@@ -5,6 +5,9 @@ import { Task } from '../../models/task.model';
 import { Recent } from '../../models/recents.model';
 import { Router } from '@angular/router';
 import { TaskModalComponent } from '../task-modal/task-modal.component';
+import {UserService} from "../../services/user.service";
+import {User} from "../../models/user.model";
+import {firstValueFrom} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -14,6 +17,7 @@ import { TaskModalComponent } from '../task-modal/task-modal.component';
 export class HomeComponent implements OnInit {
   @ViewChild('taskModal') taskModal!: TaskModalComponent;
 
+  user=new User(1,'','','','',[],[]);
   today = new Date();
   recents: Recent[] = [];
   agenda: Task[] = [];
@@ -37,18 +41,29 @@ export class HomeComponent implements OnInit {
   };
 
   constructor(
-    private taskService: TaskService,
-    private recentsService: RecentsService,
-    private router: Router
+    protected userService: UserService,
+    protected taskService: TaskService,
+    protected recentsService: RecentsService,
+    protected router: Router
   ) {}
 
   ngOnInit(): void {
-    this.loadTasks();
-    this.loadRecents();
+    this.userService.getUserById(1).subscribe({
+      next: (user: User) => {
+        this.user = user;
+      },
+      error: (error) => {
+        console.error('Error fetching user', error);
+      },
+      complete: () => {
+        this.loadTasks();
+        this.loadRecents();
+      }
+    });
   }
 
   loadTasks(): void {
-    this.taskService.getUserTasks().subscribe(tasks => {
+    this.taskService.getUserTasks(this.user.id).subscribe(tasks => {
       this.attributedItems = tasks;
     });
 
@@ -68,7 +83,7 @@ export class HomeComponent implements OnInit {
       this.workItems.unplanned = tasks;
     });
 
-    this.taskService.getTasksForToday().subscribe(tasks => {
+    this.taskService.getTasksForToday(this.user.id).subscribe(tasks => {
       this.agenda = tasks;
     });
   }
@@ -85,7 +100,7 @@ export class HomeComponent implements OnInit {
 
   openTaskModal(task: Task): void {
     this.taskModal.task = task;
-    this.taskModal.tasks = [task];  // You might want to set this to the correct task list
+    this.taskModal.tasks = [task];
     this.taskModal.openModal();
   }
 
@@ -104,11 +119,11 @@ export class HomeComponent implements OnInit {
     console.log(recent.type);
     switch (recent.type) {
       case 'task':
-        const taskId = parseInt(recent.name.split(' ')[1], 10);
+        const taskId = parseInt(recent.type.split(' ')[1], 10);
         this.navigateToTask(taskId);
         break;
       case 'project':
-        this.navigateToProject(parseInt(recent.name.split(' ')[1], 10));
+        this.navigateToProject(parseInt(recent.type.split(' ')[1], 10));
         break;
       case 'dashboard':
         this.navigateTo('dashboard');
@@ -125,7 +140,8 @@ export class HomeComponent implements OnInit {
     console.log("worked function!");
   }
   private logRecentActivity(name: string, type: 'task' | 'project' | 'dashboard' | 'calendar'): void {
-    this.recentsService.addRecent(name, type).subscribe(() => {
+    let recent = new Recent(new Date(), type, this.user);
+    this.recentsService.addRecent(recent).subscribe(() => {
       this.loadRecents();
     });
   }
