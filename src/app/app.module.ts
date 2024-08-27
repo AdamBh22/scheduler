@@ -53,7 +53,14 @@ import { NewDependencyModalComponent } from './pages/task-modal/new-dependency-m
     RouterModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: initializeKeycloak,
+    //   multi: true,
+    //   deps: [KeycloakService],
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
